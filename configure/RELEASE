@@ -28,8 +28,7 @@ SUPPORT=$(EPICS_SUPPORT)
 ASYN=$(SUPPORT)/asyn
 STREAMS=$(SUPPORT)/StreamDevice
 #
-# EPICS_BASE usually appears last so other apps can override stuff:
-EPICS_BASE=/home/controls/epics/R3.14.12.2/base
+
 
 # Set RULES here if you want to take build rules from somewhere
 # other than EPICS_BASE:
