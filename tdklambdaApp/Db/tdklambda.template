@@ -462,8 +462,8 @@ record(bi, "$(name):Mode")
 {
 	field(DESC, "Local Mode")
     	field(INP,  "$(name):OperStatus.B7 MS")
-	field(ZNAM, "REMOTE")
-	field(ONAM, "LOCAL")
+	field(ZNAM, "Remote")
+	field(ONAM, "Local")
         field(ZSV,  "NO_ALARM")
         field(OSV,  "MAJOR")
 }
