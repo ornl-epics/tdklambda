@@ -1,10 +1,3 @@
-record(bo, "$(name):StateSetpt")
-{
-	info(autosaveFields, "VAL")
-	field(DESC, "Power Supply On/Off")
-	field(ZNAM, "OFF")
-	field(ONAM, "ON")
-}
 record(bo, "$(name):StateSetptOut")
 {
 	info(autosaveFields, "VAL")
@@ -27,77 +20,7 @@ record(bi, "$(name):State")
   	field(PINI, "YES")
 	field(FLNK, "$(name):Limits")
 }
-record(calcout, "$(name):StateCheck")
-{
-#	Do nothing if the state is invalid.
-#	Set state setpoint to state if the setpoint is invalid.  
-#	If the state and setpoint are the same, set off if state is off,
-#	otherwise, set state setpoint to state.
-#	If the state setpoint has changed, go on or off.  Otherwise, the state 
-#	must've changed externally so follow it.
-#
-	field(DESC, "PS State Check")
-	field(CALC, "C=3?0:D=3?3:(A#B)&&(B#E)?B+1:A=0?1:3")
-	field(OUT,  "$(name):StateSeq.SELN PP")
-  	field(INPA, "$(name):State CPP")
-  	field(INPB, "$(name):StateSetpt CPP")
-  	field(INPC, "$(name):State.SEVR")
-  	field(INPD, "$(name):StateSetpt.SEVR")
-  	field(INPE, "$(name):StateCheck.LB")
-	field(ASG,  "Internal")
-}
-record(seq, "$(name):StateSeq")
-{
-	field(DESC, "PS State Sequence")
-	field(SELM, "Specified")
-	field(LNK1, "$(name):StateOffSetptSeq.PROC PP")
-	field(LNK2, "$(name):StateOnSetptSeq.PROC PP")
-	field(DOL3, "$(name):State")
-	field(LNK3, "$(name):StateSetptSeq PP")
-	field(ASG,  "Internal")
-}
-record(seq, "$(name):StateOnSetptSeq")
-{
-#	When going on, reset the power supply, set the volt to max, 
-#	set the curr to 0 and delay to let the current go to zero, 
-#	and set state to 1 (on).
-	field(DESC, "PS On Sequence")
-	field(LNK1, "$(name):Reset.PROC PP")
-	field(LNK2, "$(name):StateReset.PROC PP")
-	field(DOL3, "$(name):VoltSetpt.DRVH")
-	field(LNK3, "$(name):VoltSetpt PP")
-##	field(LNK4, "$(name):CurrSetpt PP")
-	field(DLY5, "0.2")
-	field(DOL5, "1")
-	field(LNK5, "$(name):StateSetptSeq PP")
-	field(ASG,  "Internal")
-}
-record(seq, "$(name):StateOffSetptSeq")
-{
-#	When going off, set the curr, state, and volt setpoints to 0 (off)..  
-	field(DESC, "PS Off Sequence")
-##	field(LNK1, "$(name):CurrSetpt PP")
-	field(DLY2, "0.2")
-##	field(LNK2, "$(name):StateSetptSeq PP")
-##	field(LNK3, "$(name):VoltSetpt PP")
-	field(ASG,  "Internal")
-}
-record(seq, "$(name):StateSetptSeq")
-{
-	# Set both the desired and the actual setpoints to requested.
-	# Renable status events in case of power-cycle.
-	field(DESC, "PS State Setpt Sequence")
-	field(DOL1, "$(name):StateSetptSeq")
-##	field(LNK1, "$(name):StateSetptOut PP")
-	field(DOL2, "$(name):StateSetptSeq")
-##	field(LNK2, "$(name):StateSetpt PP")
-	field(LNK3, "$(name):QuesEnable.PROC PP")
-	field(LNK4, "$(name):StandardEnable.PROC PP")
-	field(LNK5, "$(name):OperStatus.PROC PP")
-	field(LNK6, "$(name):IDN.PROC PP")
-	field(ASG,  "Internal")
-}
-record(bo, "$(name):StateReset")
+record(bo, "$(name):Reset")
 {
 	field(DESC, "Power Supply Reset")
 	field(DTYP, "stream")
@@ -126,13 +49,7 @@ record(ai, "$(name):Curr")
 	field(HYST, "0.001")
 #	field(FLNK, "$(name):CurrUpdate")
 }
-record(fanout, "$(name):CurrUpdate") 
-{
-	field(DESC, "Current Update")
-  	field(LNK1, "$(name):Resistance")
-  	field(LNK2, "$(name):RampStatusCalc")
-	field(ASG, "Internal")
-}
+
 record(ao, "$(name):CurrSetpt")
 {
 	info(autosaveFields, "VAL")
@@ -160,70 +77,7 @@ record(ai, "$(name):CurrSetptRdbk")
         field(PINI, "YES")
 	field(FLNK, "$(name):RampStatusSeq")
 }
-record(seq, "$(name):RampStatusSeq")
-{
-#	Setpoint has changed.  Reset ramp counter and
-#	set RampStatus to Busy.
-	field(DESC, "Set Ramping Status")
-  	field(DOL1,  "1")
-  	field(LNK1,  "$(name):RampCounter.B PP")
-  	field(DOL2,  "1")
-  	field(LNK2,  "$(name):RampStatus PP")
-	field(ASG,  "Internal")
-}
-record(bi, "$(name):RampStatus")
-{
-	field(DESC, "Ramping Status")
-	field(ZNAM, "OFF")
-	field(ONAM, "BUSY")
-	field(ZSV,  "NO_ALARM")
-	field(OSV,  "MINOR")
-}
-record(calcout, "$(name):RampCounter")
-{
-	field(DESC, "Ramp Counter")
-	field(CALC, "B?0:A+1")
-	field(INPA, "$(name):RampCounter")
-	field(OCAL, "0")
-	field(OUT,  "$(name):RampCounter.B")
-	field(DOPT, "Use OCAL")
-	field(ASG,  "Internal")
-}
-record(calcout, "$(name):RampStatusCalc")
-{
-#	Calculation to decide when to turn RampStatus back to Off after it
-#	is set to Busy by a CurrSetpt update.  Set to Off under these
-#	conditions:
-#	* Counter is above a minimum.
-#	* Difference between current readback and setpoint is below a maximum.
-#
-	field(DESC, "Ramping Status Calc")
-	field(CALC, "(D>E)||(ABS(A-B)<F)?1:0")
-	field(INPA, "$(name):CurrSetpt")
-	field(INPB, "$(name):Curr MS")
-	field(INPD, "$(name):RampCounter PP")
-	field(E,    "120")
-	field(F,    "0.05")
-	field(SDIS, "$(name):RampStatus")
-	field(DISV, "0")
-	field(OCAL, "0")
-	field(OUT,  "$(name):RampStatus PP")
-	field(DOPT, "Use OCAL")
-	field(OOPT, "When Non-zero")
-	field(ASG,  "Internal")
-}
-record(ao, "$(name):CurrDIDtOut")
-{
-	field(DESC, "Current Setpoint dIdt Output")
-	field(DRVH, "100.0")
-	field(DRVL, "0.1")
-	field(EGU,  "A/s")
-	field(HOPR, "100.0")
-#	field(PINI, "YES")
-	field(PREC, "1")
-	field(OMSL, "closed_loop")
-	field(DOL,  "$(name):CurrDIDt")
-}
+
 record (stringin, "$(name):IDN")
 {
 	field(DESC, "Identification")
@@ -262,6 +116,16 @@ record(ai, "$(name):Volt")
         field(EGU,  "V")
         field(PREC, "3")
 	field(HOPR, "$(vdrvh)")
+	field(HIHI, "$(vdrvh)")
+	field(HIGH, "$(vdrvh)")
+	field(LOPR, "$(vdrvl)")
+	field(LOLO, "$(vdrvl)")
+	field(LOW,  "$(vdrvl)")
+	field(HHSV, "MAJOR")
+	field(HSV,  "MINOR")
+	field(LSV,  "MINOR")
+	field(LLSV, "MAJOR")
+	field(HYST, "0.001")
 	field(PINI, "YES")
 }
 record(ao, "$(name):VoltSetpt")
@@ -288,13 +152,56 @@ record(ai, "$(name):VoltSetptRdbk")
 	field(HOPR, "$(vdrvh)")
         field(PINI, "YES")
 }
+
+record(ai, "$(name):OverVoltLevel")
+{
+	field(DESC, "Over-Volt level")
+	field(DTYP, "stream")
+  	field(INP, "@tdklambda.proto PSU-getovervolts $(ps)")
+	field(EGU,  "V")
+	field(PREC, "2")
+}
+
+record(ao, "$(name):OverVoltSetpt")
+{
+	info(autosaveFields, "VAL")
+	field(DESC, "Over-Volt Setpoint")
+	field(DTYP, "stream")
+  	field(OUT, "@tdklambda.proto PSU-setovervolts $(ps)")
+#	field(DRVH, "$(ovdrvh)")
+	field(EGU,  "V")
+#	field(HOPR, "$(ovdrvh)")
+	field(PREC, "2")
+	field(FLNK, "$(name):OverVoltLevel")
+}
+record(ai, "$(name):UnderVoltLevel")
+{
+	field(DESC, "Under-Volt level")
+	field(DTYP, "stream")
+  	field(INP, "@tdklambda.proto PSU-getundervolts $(ps)")
+	field(EGU,  "V")
+	field(PREC, "2")
+}
+
+record(ao, "$(name):UnderVoltSetpt")
+{
+	info(autosaveFields, "VAL")
+	field(DESC, "Over-Volt Setpoint")
+	field(DTYP, "stream")
+  	field(OUT, "@tdklambda.proto PSU-setundervolts $(ps)")
+#	field(DRVL, "$(ovdrvh)")
+	field(EGU,  "V")
+#	field(HOPR, "$(ovdrvh)")
+	field(PREC, "2")
+	field(FLNK, "$(name):UnderVoltLevel")
+}
 record(stringin, "$(name):CntlAddr")
 {
-	field(DESC, "Controller Address")
+	field(DESC, "Controller IP Address")
 	field(DTYP, "stream")
   	field(INP, "@tdklambda.proto PSU-getaddr $(ps)")
 }
-record(bo, "$(name):Reset")
+record(bo, "$(name):ErrClr")
 {
 	field(DESC, "Clear Errors")
 	field(DTYP, "stream")
@@ -312,23 +219,31 @@ record(seq, "$(name):ResetSeq")
 	field(LNK2, "$(name):QuesEvent.PROC PP")
 	field(LNK3, "$(name):StandardEvent.PROC PP")
 }
-record(fanout, "$(name):UpdateFast") 
+record(seq, "$(name):UpdateFast") 
 {
 #	Process State before Curr since State may change Curr limits.
 	field(DESC, "Fast Update")
+  	field(DO1, "1")
+  	field(DLY1, "0.2")
   	field(LNK1, "$(name):Volt.PROC")
+ 	field(DO2, "1")
+ 	field(DLY2, "0.2")
   	field(LNK2, "$(name):State.PROC")
+	field(DO3, "1")
+	field(DLY3, "0.2")
   	field(LNK3, "$(name):Curr.PROC")
   	field(SCAN, ".5 second")
-	field(ASG, "Internal")
+	field(ASG, "")
 }
+
 record(fanout, "$(name):UpdateSlow") 
 {
 	field(DESC, "Slow Update")
-  	field(LNK1, "$(name):Event.PROC")
+  	field(LNK1, "$(name):Event.PROC PP")
   	field(LNK2, "$(name):OperStatus.PROC")
+  	field(LNK3, "$(name):QuesEvent.PROC PP")
   	field(SCAN, "2 second")
-	field(ASG, "Internal")
+	field(ASG, "")
 }
 record(longout, "$(name):QuesEnable") 
 {
@@ -337,13 +252,18 @@ record(longout, "$(name):QuesEnable")
   	field(DTYP, "stream")
 	field(OUT,  "@tdklambda.proto PSU-setquesevt $(ps)")
 	field(DOL,  "4095")
-#	field(PINI, "YES")
+	field(PINI, "YES")
 }
+
+# "STAT:QUES:EVEN?" cannot get the event regiester right 
+# even "STAT:QUES:ENAB 4095" is set which means everybit is enabled
+# so, use "STAT:QUES:COND?" to instead 
 record(mbbiDirect, "$(name):QuesEvent") 
 {
   	field(DESC, "Questionable Event Register")
   	field(DTYP, "stream")
-  	field(INP, "@tdklambda.proto PSU-getquesevt $(ps)")
+#  	field(INP, "@tdklambda.proto PSU-getquesevt $(ps)")
+  	field(INP, "@tdklambda.proto PSU-getques $(ps)")
 	field(PINI, "YES")
 	field(FLNK, "$(name):ACStatus")
 }
@@ -481,7 +401,7 @@ record(longout, "$(name):StandardEnable")
   	field(DTYP, "stream")
 	field(OUT,  "@tdklambda.proto PSU-setevt $(ps)")
 	field(DOL,  "60")
-#	field(PINI, "YES")
+	field(PINI, "YES")
 }
 record(mbbiDirect, "$(name):StandardEvent") 
 {
@@ -568,20 +488,19 @@ record(mbbiDirect, "$(name):Event")
   	field(DESC, "Status Byte Register")
   	field(DTYP, "stream")
   	field(INP, "@tdklambda.proto PSU-getstb $(ps)")
-	field(ASG, "Internal")
 	field(PINI, "YES")
 	field(FLNK, "$(name):EventSeq")
 }
+
 record(seq, "$(name):EventSeq")
 {
 	# Process the status event registers that show a fault.
 	# Do nothing if the status byte register is 0.
 	field(DESC, "Process Non-Zero Events")
-	field(ASG,  "Internal")
 	field(SELM, "Mask")
 	field(SELL, "$(name):Event")
 	field(LNK3, "$(name):InfoMsg.PROC PP")
-	field(LNK4, "$(name):QuesEvent.PROC PP")
+#	field(LNK4, "$(name):QuesEvent PP")
 	field(LNK6, "$(name):StandardEvent.PROC PP")
 }
 record(stringin, "$(name):InfoMsg")
@@ -645,26 +564,19 @@ record(bo, "$(name):FoldBackSet")
 	field(ONAM, "Enable")
   	field(FLNK, "$(name):FoldBackMode")
 }
+
 record(calcout, "$(name):All:Stat")
 {
 	field(DESC, "Sum of status")
-	field(CALC, "A|B|C|D|E|F|G|H|I|J|K|L")
-	field(INPA,  "$(name):ACStatus CPP MS")
+	field(CALC, "!A|B|C|D|G|H|I")
+	field(INPA, "$(name):State CPP MS")
   	field(INPB, "$(name):OverTemp CPP MS")
   	field(INPC, "$(name):FoldBack CPP MS")
   	field(INPD, "$(name):OverVolt CPP MS")
-  	field(INPE, "$(name):ShutOff CPP MS")
-  	field(INPF, "$(name):ManualOff CPP MS")
+#  	field(INPE, "$(name):ShutOff CPP MS")
+#  	field(INPF, "$(name):ManualOff CPP MS")
   	field(INPG, "$(name):OutputStatus CPP MS")
-  	field(INPH, "$(name):IntInputOverFlow CPP MS")
-  	field(INPI, "$(name):IntOverFlow CPP MS")
-  	field(INPJ, "$(name):IntTimeOut CPP MS")
-  	field(INPK, "$(name):IntCommError CPP MS")
-  	field(INPL, "$(name):FoldBackTrip CPP MS")
-	field(FLNK, "$(name):InfoMsg")
-}
-record(fanout, "$(name):QuesEventUpdate") 
-{
-	field(DESC, "QuesEvent Update")
-  	field(LNK1, "$(name):QuesEvent")
+  	field(INPH, "$(name):Volt.STAT CPP MS")
+  	field(INPI, "$(name):FoldBackTrip CPP MS")
+#	field(FLNK, "$(name):InfoMsg")
 }
