@@ -568,7 +568,7 @@ record(bo, "$(name):FoldBackSet")
 record(calcout, "$(name):All:Stat")
 {
 	field(DESC, "Sum of status")
-	field(CALC, "!A|B|C|D|G|H|I")
+	field(CALC, "!A||H||I")
 	field(INPA, "$(name):State CPP MS")
   	field(INPB, "$(name):OverTemp CPP MS")
   	field(INPC, "$(name):FoldBack CPP MS")
