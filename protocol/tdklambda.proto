@@ -1,8 +1,8 @@
 OutTerminator = ";";
 Terminator  = LF;
-LockTimeout   = 5000;
-ReplyTimeout  = 5000;
-WriteTimeout  = 3000;
+LockTimeout   = 1000;
+ReplyTimeout  = 1000;
+WriteTimeout  = 1000;
 
 #
 # genesys.proto (stream device protocol file)
