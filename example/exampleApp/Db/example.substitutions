@@ -1,0 +1,5 @@
+file tdklambda.template
+{
+  pattern {   name,          ps,   grp  , drvl,  drvh, vdrvh }
+          {bl99:tdklambda,    ps1,  Dipole,  0  ,  5  ,  12  }
+}
