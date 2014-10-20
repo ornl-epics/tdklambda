@@ -19,16 +19,14 @@
 # Build settings that are NOT module paths should appear in a
 # CONFIG_SITE file.
 
-# Include common local variables for the build.
-# # This defines EPICS_BASE and SUPPORT
--include $(TOP)/../../setup_release
-SUPPORT=$(EPICS_SUPPORT)
+SUPPORT=/home/controls/epics
 #
 #Support Modules
-ASYN=$(SUPPORT)/asyn
-STREAMS=$(SUPPORT)/StreamDevice
+ASYN=$(SUPPORT)/asyn/master
+STREAMS=$(SUPPORT)/StreamDevice/master
 #
 
+EPICS_BASE=/home/controls/epics/base/master
 
 # Set RULES here if you want to take build rules from somewhere
 # other than EPICS_BASE:
