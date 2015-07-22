@@ -70,13 +70,14 @@ PSU-setonoff      { out "OUTP:STAT %{OFF|ON}";                       }
 PSU-getonoff      { out "OUTP:STAT?";           in "%{0|1}";      }
 
 # Status Control Commands
-PSU-setcomm       { out "SYST:SET %{LOC|REM|LLO}";                   }
-PSU-getcomm       { out "SYST:SET?";            in "%{LOC|REM|LLO}"; }
+PSU-setcomm       { out "SYST:COMM:RLSTate %{LOC|REM|RWL}";                   }
+PSU-getcomm       { out "SYST:COMM:RLSTate?";   in "%{LOC|REM|RWL}"; }
 PSU-geterror      { out "SYST:ERR?"; ExtraInput = Ignore; in "%39c"; }
-PSU-getaddr       { out "SYST:COMM:LAN:IP?";    in "%s";             }
-PSU-getmode       { out "SOUR:MODE?";           in "%{CV|CC|OFF}";   }
-PSU-setstart      { out "OUTP:PON %{OFF|ON}";                        }
-PSU-getstart      { out "OUTP:PON?";            in "%{OFF|ON}";      }
+# not supported by agilent
+#PSU-getaddr       { out "SYST:COMM:LAN:IP?";    in "%s";             }
+#PSU-getmode       { out "SOUR:MODE?";           in "%{CV|CC|OFF}";   }
+PSU-setstart      { out "OUTP:PON %{RST|AUTO}";                        }
+PSU-getstart      { out "OUTP:PON?";            in "%{RST|AUTO}";      }
 PSU-setquesevt    { out "STAT:QUES:ENAB %d";                         }
 PSU-getques       { out "STAT:QUES:COND?";      in "%d";             }
 PSU-getquesevt    { out "STAT:QUES:EVEN?";      in "%d";             }

@@ -232,216 +232,216 @@ record(seq, "$(name):UpdateFast")
 	field(ASG, "")
 }
 
-record(fanout, "$(name):UpdateSlow") 
-{
-	field(DESC, "Slow Update")
-  	field(LNK1, "$(name):Event.PROC PP")
-  	field(LNK2, "$(name):OperStatus.PROC")
-  	field(LNK3, "$(name):QuesEvent.PROC PP")
-  	field(SCAN, "2 second")
-	field(ASG, "")
-}
-record(longout, "$(name):QuesEnable") 
-{
-	info(autosaveFields, "VAL")
-  	field(DESC, "Enable Questionable Events")
-  	field(DTYP, "stream")
-	field(OUT,  "@tdk_compat.proto PSU-setquesevt $(ps)")
-	field(DOL,  "4095")
-	field(PINI, "YES")
-}
-
-# "STAT:QUES:EVEN?" cannot get the event regiester right 
-# even "STAT:QUES:ENAB 4095" is set which means everybit is enabled
-# so, use "STAT:QUES:COND?" to instead 
-record(mbbiDirect, "$(name):QuesEvent") 
-{
-  	field(DESC, "Questionable Event Register")
-  	field(DTYP, "stream")
-  	field(INP, "@tdk_compat.proto PSU-getques $(ps)")
-	field(PINI, "YES")
-	field(FLNK, "$(name):ACStatus")
-}
-record(bi, "$(name):ACStatus")
-{
-	field(DESC, "AC Status")
-    	field(INP,  "$(name):QuesEvent.B1 MS")
-	field(ZNAM, "OK")
-	field(ONAM, "FAULT")
-        field(ZSV,  "NO_ALARM")
-        field(OSV,  "MAJOR")
-	field(FLNK, "$(name):OverTemp")
-}
-record(bi, "$(name):OverTemp")
-{
-	field(DESC, "Over Temperature Status")
-    	field(INP,  "$(name):QuesEvent.B2 MS")
-	field(ZNAM, "OK")
-	field(ONAM, "FAULT")
-        field(ZSV,  "NO_ALARM")
-        field(OSV,  "MAJOR")
-	field(FLNK, "$(name):OverVolt")
-}
-record(bi, "$(name):OverVolt")
-{
-	field(DESC, "Over Voltage Status")
-    	field(INP,  "$(name):QuesEvent.B4 MS")
-	field(ZNAM, "OK")
-	field(ONAM, "FAULT")
-        field(ZSV,  "NO_ALARM")
-        field(OSV,  "MAJOR")
-	field(FLNK, "$(name):ShutOff")
-}
-record(bi, "$(name):ShutOff")
-{
-	field(DESC, "J1 Analog In Shut Off")
-    	field(INP,  "$(name):QuesEvent.B5 MS")
-	field(ZNAM, "OK")
-	field(ONAM, "FAULT")
-        field(ZSV,  "NO_ALARM")
-        field(OSV,  "MAJOR")
-	field(FLNK, "$(name):ManualOff")
-}
-record(bi, "$(name):ManualOff")
-{
-	field(DESC, "Front Panel Off")
-    	field(INP,  "$(name):QuesEvent.B6 MS")
-	field(ZNAM, "OK")
-	field(ONAM, "FAULT")
-        field(ZSV,  "NO_ALARM")
-        field(OSV,  "MAJOR")
-	field(FLNK, "$(name):OutputStatus")
-}
-record(bi, "$(name):OutputStatus")
-{
-	field(DESC, "J1 Analog In Enable Fault")
-    	field(INP,  "$(name):QuesEvent.B7 MS")
-	field(ZNAM, "OK")
-	field(ONAM, "FAULT")
-        field(ZSV,  "NO_ALARM")
-        field(OSV,  "MAJOR")
-	field(FLNK, "$(name):IntInputOverFlow")
-}
-record(bi, "$(name):IntInputOverFlow")
-{
-	field(DESC, "Internal Input Overflow")
-    	field(INP,  "$(name):QuesEvent.B8 MS")
-	field(ZNAM, "OK")
-	field(ONAM, "FAULT")
-        field(ZSV,  "NO_ALARM")
-        field(OSV,  "MAJOR")
-	field(FLNK, "$(name):IntOverFlow")
-}
-record(bi, "$(name):IntOverFlow")
-{
-	field(DESC, "Internal Overflow")
-    	field(INP,  "$(name):QuesEvent.B9 MS")
-	field(ZNAM, "OK")
-	field(ONAM, "FAULT")
-        field(ZSV,  "NO_ALARM")
-        field(OSV,  "MAJOR")
-	field(FLNK, "$(name):IntTimeOut")
-}
-record(bi, "$(name):IntTimeOut")
-{
-	field(DESC, "Internal Overflow")
-    	field(INP,  "$(name):QuesEvent.BA MS")
-	field(ZNAM, "OK")
-	field(ONAM, "FAULT")
-        field(ZSV,  "NO_ALARM")
-        field(OSV,  "MAJOR")
-	field(FLNK, "$(name):IntCommError")
-}
-record(bi, "$(name):IntCommError")
-{
-	field(DESC, "Internal Comm Error")
-    	field(INP,  "$(name):QuesEvent.BB MS")
-	field(ZNAM, "OK")
-	field(ONAM, "FAULT")
-        field(ZSV,  "NO_ALARM")
-        field(OSV,  "MAJOR")
-	field(FLNK, "$(name):StatusCalc")
-}
-record(calcout, "$(name):StatusCalc")
-{
-	field(DESC, "Fault Latch Status Calc")
-	field(CALC, "(A>0)||(B>0)?0:1")
-	field(INPA, "$(name):QuesEvent MS")
-	field(INPB, "$(name):QuesEvent.SEVR")
-	field(FLNK, "$(name):Status")
-}
-record(bi, "$(name):Status")
-{
-	field(DESC, "Fault Latch Status")
-	field(INP,  "$(name):StatusCalc MS")
-	field(ZNAM, "FAULT")
-	field(ONAM, "OK")
-        field(ZSV,  "MAJOR")
-        field(OSV,  "NO_ALARM")
-}
-record(longout, "$(name):StandardEnable") 
-{
-	info(autosaveFields, "VAL")
-  	field(DESC, "Enable Standard Events")
-  	field(DTYP, "stream")
-	field(OUT,  "@tdk_compat.proto PSU-setevt $(ps)")
-	field(DOL,  "60")
-	field(PINI, "YES")
-}
-record(mbbiDirect, "$(name):StandardEvent") 
-{
-  	field(DESC, "Standard Event Register")
-  	field(DTYP, "stream")
-  	field(INP, "@tdk_compat.proto PSU-getevt $(ps)")
-	field(PINI, "YES")
-}
-record(mbbiDirect, "$(name):OperStatus") 
-{
-  	field(DESC, "Operational Conditions")
-  	field(DTYP, "stream")
-  	field(INP, "@tdk_compat.proto PSU-getcond $(ps)")
-	field(PINI, "YES")
-	field(FLNK, "$(name):VoltMode")
-}
-record(bi, "$(name):VoltMode")
-{
-	field(DESC, "Voltage Mode")
-    	field(INP,  "$(name):OperStatus.B0 MS")
-	field(ZNAM, "Not Constant")
-	field(ONAM, "Constant")
-        field(ZSV,  "NO_ALARM")
-        field(OSV,  "MAJOR")
-	field(FLNK, "$(name):Ready")
-}
-record(bi, "$(name):Ready")
-{
-	field(DESC, "Power Supply Ready Status")
-    	field(INP,  "$(name):OperStatus.B1 MS")
-	field(ZNAM, "NOTREADY")
-	field(ONAM, "READY")
-        field(ZSV,  "MAJOR")
-        field(OSV,  "NO_ALARM")
-	field(FLNK, "$(name):AutoStartMode")
-}
-record(bi, "$(name):AutoStartMode")
-{
-	field(DESC, "Auto Start Mode")
-    	field(INP,  "$(name):OperStatus.B4 MS")
-	field(ZNAM, "Disabled")
-	field(ONAM, "Enabled")
-        field(ZSV,  "NO_ALARM")
-        field(OSV,  "MAJOR")
-	field(FLNK, "$(name):Mode")
-}
-record(bi, "$(name):Mode")
-{
-	field(DESC, "Local Mode")
-    	field(INP,  "$(name):OperStatus.B7 MS")
-	field(ZNAM, "Remote")
-	field(ONAM, "Local")
-        field(ZSV,  "NO_ALARM")
-        field(OSV,  "MAJOR")
-}
+#record(fanout, "$(name):UpdateSlow") 
+#{
+#	field(DESC, "Slow Update")
+#  	field(LNK1, "$(name):Event.PROC PP")
+#  	field(LNK2, "$(name):OperStatus.PROC")
+#  	field(LNK3, "$(name):QuesEvent.PROC PP")
+#  	field(SCAN, "2 second")
+#	field(ASG, "")
+#}
+#record(longout, "$(name):QuesEnable") 
+#{
+#	info(autosaveFields, "VAL")
+#  	field(DESC, "Enable Questionable Events")
+#  	field(DTYP, "stream")
+#	field(OUT,  "@tdk_compat.proto PSU-setquesevt $(ps)")
+#	field(DOL,  "4095")
+#	field(PINI, "YES")
+#}
+#
+## "STAT:QUES:EVEN?" cannot get the event regiester right 
+## even "STAT:QUES:ENAB 4095" is set which means everybit is enabled
+## so, use "STAT:QUES:COND?" to instead 
+#record(mbbiDirect, "$(name):QuesEvent") 
+#{
+#  	field(DESC, "Questionable Event Register")
+#  	field(DTYP, "stream")
+#  	field(INP, "@tdk_compat.proto PSU-getques $(ps)")
+#	field(PINI, "YES")
+#	field(FLNK, "$(name):ACStatus")
+#}
+#record(bi, "$(name):ACStatus")
+#{
+#	field(DESC, "AC Status")
+#    	field(INP,  "$(name):QuesEvent.B1 MS")
+#	field(ZNAM, "OK")
+#	field(ONAM, "FAULT")
+#        field(ZSV,  "NO_ALARM")
+#        field(OSV,  "MAJOR")
+#	field(FLNK, "$(name):OverTemp")
+#}
+#record(bi, "$(name):OverTemp")
+#{
+#	field(DESC, "Over Temperature Status")
+#    	field(INP,  "$(name):QuesEvent.B2 MS")
+#	field(ZNAM, "OK")
+#	field(ONAM, "FAULT")
+#        field(ZSV,  "NO_ALARM")
+#        field(OSV,  "MAJOR")
+#	field(FLNK, "$(name):OverVolt")
+#}
+#record(bi, "$(name):OverVolt")
+#{
+#	field(DESC, "Over Voltage Status")
+#    	field(INP,  "$(name):QuesEvent.B4 MS")
+#	field(ZNAM, "OK")
+#	field(ONAM, "FAULT")
+#        field(ZSV,  "NO_ALARM")
+#        field(OSV,  "MAJOR")
+#	field(FLNK, "$(name):ShutOff")
+#}
+#record(bi, "$(name):ShutOff")
+#{
+#	field(DESC, "J1 Analog In Shut Off")
+#    	field(INP,  "$(name):QuesEvent.B5 MS")
+#	field(ZNAM, "OK")
+#	field(ONAM, "FAULT")
+#        field(ZSV,  "NO_ALARM")
+#        field(OSV,  "MAJOR")
+#	field(FLNK, "$(name):ManualOff")
+#}
+#record(bi, "$(name):ManualOff")
+#{
+#	field(DESC, "Front Panel Off")
+#    	field(INP,  "$(name):QuesEvent.B6 MS")
+#	field(ZNAM, "OK")
+#	field(ONAM, "FAULT")
+#        field(ZSV,  "NO_ALARM")
+#        field(OSV,  "MAJOR")
+#	field(FLNK, "$(name):OutputStatus")
+#}
+#record(bi, "$(name):OutputStatus")
+#{
+#	field(DESC, "J1 Analog In Enable Fault")
+#    	field(INP,  "$(name):QuesEvent.B7 MS")
+#	field(ZNAM, "OK")
+#	field(ONAM, "FAULT")
+#        field(ZSV,  "NO_ALARM")
+#        field(OSV,  "MAJOR")
+#	field(FLNK, "$(name):IntInputOverFlow")
+#}
+#record(bi, "$(name):IntInputOverFlow")
+#{
+#	field(DESC, "Internal Input Overflow")
+#    	field(INP,  "$(name):QuesEvent.B8 MS")
+#	field(ZNAM, "OK")
+#	field(ONAM, "FAULT")
+#        field(ZSV,  "NO_ALARM")
+#        field(OSV,  "MAJOR")
+#	field(FLNK, "$(name):IntOverFlow")
+#}
+#record(bi, "$(name):IntOverFlow")
+#{
+#	field(DESC, "Internal Overflow")
+#    	field(INP,  "$(name):QuesEvent.B9 MS")
+#	field(ZNAM, "OK")
+#	field(ONAM, "FAULT")
+#        field(ZSV,  "NO_ALARM")
+#        field(OSV,  "MAJOR")
+#	field(FLNK, "$(name):IntTimeOut")
+#}
+#record(bi, "$(name):IntTimeOut")
+#{
+#	field(DESC, "Internal Overflow")
+#    	field(INP,  "$(name):QuesEvent.BA MS")
+#	field(ZNAM, "OK")
+#	field(ONAM, "FAULT")
+#        field(ZSV,  "NO_ALARM")
+#        field(OSV,  "MAJOR")
+#	field(FLNK, "$(name):IntCommError")
+#}
+#record(bi, "$(name):IntCommError")
+#{
+#	field(DESC, "Internal Comm Error")
+#    	field(INP,  "$(name):QuesEvent.BB MS")
+#	field(ZNAM, "OK")
+#	field(ONAM, "FAULT")
+#        field(ZSV,  "NO_ALARM")
+#        field(OSV,  "MAJOR")
+#	field(FLNK, "$(name):StatusCalc")
+#}
+#record(calcout, "$(name):StatusCalc")
+#{
+#	field(DESC, "Fault Latch Status Calc")
+#	field(CALC, "(A>0)||(B>0)?0:1")
+#	field(INPA, "$(name):QuesEvent MS")
+#	field(INPB, "$(name):QuesEvent.SEVR")
+#	field(FLNK, "$(name):Status")
+##}
+#record(bi, "$(name):Status")
+#{
+#	field(DESC, "Fault Latch Status")
+#	field(INP,  "$(name):StatusCalc MS")
+#	field(ZNAM, "FAULT")
+#	field(ONAM, "OK")
+#        field(ZSV,  "MAJOR")
+#        field(OSV,  "NO_ALARM")
+#}
+#record(longout, "$(name):StandardEnable") 
+#{
+#	info(autosaveFields, "VAL")
+#  	field(DESC, "Enable Standard Events")
+#  	field(DTYP, "stream")
+#	field(OUT,  "@tdk_compat.proto PSU-setevt $(ps)")
+#	field(DOL,  "60")
+#	field(PINI, "YES")
+#}
+#record(mbbiDirect, "$(name):StandardEvent") 
+#{
+#  	field(DESC, "Standard Event Register")
+#  	field(DTYP, "stream")
+#  	field(INP, "@tdk_compat.proto PSU-getevt $(ps)")
+#	field(PINI, "YES")
+#}
+#record(mbbiDirect, "$(name):OperStatus") 
+#{
+#  	field(DESC, "Operational Conditions")
+#  	field(DTYP, "stream")
+#  	field(INP, "@tdk_compat.proto PSU-getcond $(ps)")
+#	field(PINI, "YES")
+#	field(FLNK, "$(name):VoltMode")
+#}
+#record(bi, "$(name):VoltMode")
+#{
+#	field(DESC, "Voltage Mode")
+#    	field(INP,  "$(name):OperStatus.B0 MS")
+#	field(ZNAM, "Not Constant")
+#	field(ONAM, "Constant")
+#        field(ZSV,  "NO_ALARM")
+#        field(OSV,  "MAJOR")
+#	field(FLNK, "$(name):Ready")
+#}
+#record(bi, "$(name):Ready")
+#{
+#	field(DESC, "Power Supply Ready Status")
+#    	field(INP,  "$(name):OperStatus.B1 MS")
+#	field(ZNAM, "NOTREADY")
+#	field(ONAM, "READY")
+#        field(ZSV,  "MAJOR")
+#        field(OSV,  "NO_ALARM")
+#	field(FLNK, "$(name):AutoStartMode")
+#}
+#record(bi, "$(name):AutoStartMode")
+#{
+#	field(DESC, "Auto Start Mode")
+#    	field(INP,  "$(name):OperStatus.B4 MS")
+#	field(ZNAM, "Disabled")
+#	field(ONAM, "Enabled")
+#        field(ZSV,  "NO_ALARM")
+#        field(OSV,  "MAJOR")
+#	field(FLNK, "$(name):Mode")
+#}
+#record(bi, "$(name):Mode")
+#{
+#	field(DESC, "Local Mode")
+#    	field(INP,  "$(name):OperStatus.B7 MS")
+#	field(ZNAM, "Remote")
+#	field(ONAM, "Local")
+#        field(ZSV,  "NO_ALARM")
+#        field(OSV,  "MAJOR")
+#}
 #record(mbbo, "$(name):ModeSetpt")
 #{
 #	info(autosaveFields, "VAL")
@@ -455,29 +455,29 @@ record(bi, "$(name):Mode")
 #        field(ZRSV, "MAJOR")
 #        field(ONSV, "NO_ALARM")
 #        field(TWSV, "NO_ALARM")
-#	field(PINI, "YES")
+##	field(PINI, "YES")
 #	field(FLNK, "$(name):OperStatus")
 #}
-record(mbbiDirect, "$(name):Event") 
-{
-  	field(DESC, "Status Byte Register")
-  	field(DTYP, "stream")
-  	field(INP, "@tdk_compat.proto PSU-getstb $(ps)")
-	field(PINI, "YES")
-	field(FLNK, "$(name):EventSeq")
-}
-
-record(seq, "$(name):EventSeq")
-{
-	# Process the status event registers that show a fault.
-	# Do nothing if the status byte register is 0.
-	field(DESC, "Process Non-Zero Events")
-	field(SELM, "Mask")
-	field(SELL, "$(name):Event")
-	field(LNK3, "$(name):InfoMsg.PROC PP")
-#	field(LNK4, "$(name):QuesEvent PP")
-	field(LNK6, "$(name):StandardEvent.PROC PP")
-}
+#record(mbbiDirect, "$(name):Event") 
+#{
+#  	field(DESC, "Status Byte Register")
+#  	field(DTYP, "stream")
+#  	field(INP, "@tdk_compat.proto PSU-getstb $(ps)")
+#	field(PINI, "YES")
+#	field(FLNK, "$(name):EventSeq")
+#}
+#
+#record(seq, "$(name):EventSeq")
+#{
+#	# Process the status event registers that show a fault.
+#	# Do nothing if the status byte register is 0.
+#	field(DESC, "Process Non-Zero Events")
+#	field(SELM, "Mask")
+#	field(SELL, "$(name):Event")
+#	field(LNK3, "$(name):InfoMsg.PROC PP")
+##	field(LNK4, "$(name):QuesEvent PP")
+#	field(LNK6, "$(name):StandardEvent.PROC PP")
+#}
 record(stringin, "$(name):InfoMsg")
 {
 	field(DESC, "Informational Message")
