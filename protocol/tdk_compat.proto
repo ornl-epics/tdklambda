@@ -67,8 +67,10 @@ PSU-getcur        { out "MEAS:CURR?";           in "%f";             }
 #PSU-getfbtrip 	  { out "SOUR:CURR:PROT:TRIP?"; in "%{0|1}";         }
 
 # State Commands
-PSU-setonoff      { out "OUTP:STAT %{OFF|ON}";                       }
-PSU-getonoff      { out "OUTP:STAT?";           in "%{0|1}";      }
+#PSU-setonoff      { out "OUTP:STAT %{OFF|ON}";                       }
+PSU-setonoff      { out "OUTP:STAT %{0|1}";                       }
+PSU-getonoff      { out "OUTP:STAT?";           in "%{0|1}";      
+                    @mismatch { in "%{OFF|ON}" } }
 
 # Status Control Commands
 PSU-setcomm       { out "SYST:COMM:RLSTate %{LOC|REM|RWL}";                   }
