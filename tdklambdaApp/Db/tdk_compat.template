@@ -191,12 +191,12 @@ record(ao, "$(name):UnderVoltSetpt")
 	field(PREC, "2")
 	field(FLNK, "$(name):UnderVoltLevel")
 }
-record(stringin, "$(name):CntlAddr")
-{
-	field(DESC, "Controller IP Address")
-	field(DTYP, "stream")
-  	field(INP, "@tdk_compat.proto PSU-getaddr $(ps)")
-}
+#record(stringin, "$(name):CntlAddr")
+#{
+#	field(DESC, "Controller IP Address")
+#	field(DTYP, "stream")
+#  	field(INP, "@tdk_compat.proto PSU-getaddr $(ps)")
+#}
 record(bo, "$(name):ErrClr")
 {
 	field(DESC, "Clear Errors")

@@ -32,6 +32,7 @@ PSU-set {out "%s";                                 }
 PSU-get {out "%s"; ExtraInput = Ignore; in "%39c"; }
 #
 versionstring {
+    ExtraInput = Ignore;
     out "*IDN?";
     in  "%(\$1:Chassis.VAL)[^,],"
         "%(\$1:PSType.VAL)[^,],"
