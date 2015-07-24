@@ -282,6 +282,6 @@ record(calcout, "$(name):All:Stat")
 {
 	field(DESC, "Sum of status")
 	field(CALC, "!A||B")
-	field(INPA, "$(name):State CPP MS")
+	field(INPA, "$(name):State CPP NMS")
   	field(INPB, "$(name):Volt.STAT CPP MS")
 }
