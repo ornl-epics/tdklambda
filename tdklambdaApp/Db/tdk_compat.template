@@ -49,7 +49,7 @@ record(ai, "$(name):Curr")
 	field(LSV,  "MINOR")
 	field(LLSV, "MAJOR")
 	field(HYST, "0.001")
-#	field(FLNK, "$(name):CurrUpdate")
+ 	info (archive, "monitor, 00:00:01, VAL")
 }
 
 record(ao, "$(name):CurrSetpt")
@@ -78,6 +78,7 @@ record(ai, "$(name):CurrSetptRdbk")
 	field(HOPR, "$(drvh)")
 	field(LOPR, "$(drvl)")
         field(PINI, "YES")
+ 	info (archive, "monitor, 00:00:01, VAL")
 #	field(FLNK, "$(name):RampStatusSeq")
 }
 
@@ -130,6 +131,7 @@ record(ai, "$(name):Volt")
 	field(LLSV, "MAJOR")
 	field(HYST, "0.001")
 	field(PINI, "YES")
+	info (archive, "monitor, 00:00:01, VAL")
 }
 record(ao, "$(name):VoltSetpt")
 {
@@ -145,6 +147,7 @@ record(ao, "$(name):VoltSetpt")
 #        field(PINI, "YES")
 	field(FLNK, "$(name):VoltSetptRdbk")
 	field(ASG, "BEAMLINE")
+	info (archive, "monitor, 00:00:10, VAL")
 }
 record(ai, "$(name):VoltSetptRdbk")
 {
@@ -197,12 +200,6 @@ record(ao, "$(name):UnderVoltSetpt")
 	field(FLNK, "$(name):UnderVoltLevel")
 	field(ASG, "BEAMLINE")
 }
-#record(stringin, "$(name):CntlAddr")
-#{
-#	field(DESC, "Controller IP Address")
-#	field(DTYP, "stream")
-#  	field(INP, "@tdk_compat.proto PSU-getaddr $(ps)")
-#}
 record(bo, "$(name):ErrClr")
 {
 	field(DESC, "Clear Errors")
@@ -245,6 +242,7 @@ record(stringin, "$(name):InfoMsg")
 	field(DTYP, "stream")
 	field(INP,  "@tdk_compat.proto PSU-geterror $(ps)")
 	field(PINI, "YES")
+	info (archive, "monitor, 00:00:01, VAL")
 }
 record(stringout, "$(name):GetAnything") 
 {
@@ -284,4 +282,5 @@ record(calcout, "$(name):All:Stat")
 	field(CALC, "!A||B")
 	field(INPA, "$(name):State CPP NMS")
   	field(INPB, "$(name):Volt.STAT CPP MS")
+	info (archive, "monitor, 00:00:01, VAL")
 }
