@@ -3,3 +3,11 @@ file tdklambda.template
   pattern {   name,          ps,   grp  , drvl,  drvh, vdrvh }
           {bl99:tdklambda,    ps1,  Dipole,  0  ,  5  ,  12  }
 }
+
+
+#drvl sets the lo alarms for current
+#drvh sets the hi limits for current
+#vdrvl is the low for the voltage
+#vdrvh is the high for the voltage
+#vdol is the voltage set point
+
