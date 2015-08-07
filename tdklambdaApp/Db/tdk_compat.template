@@ -89,7 +89,6 @@ record (stringin, "$(name):IDN")
     	field(DTYP, "stream")
     	field(INP,  "@tdk_compat.proto versionstring($(name)) $(ps)")
     	field(PINI, "YES")
-    	field(FLNK, "$(name):CntlAddr")
 }
 record(stringin, "$(name):SerialNumber")
 {
