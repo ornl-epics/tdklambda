@@ -13,6 +13,7 @@ include $(TOP)/configure/CONFIG
 DB += tdklambda.template
 DB += tdklambda_old.template
 DB += tdk_compat.template
+DB += loc_rem.template
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
