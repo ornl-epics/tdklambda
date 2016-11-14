@@ -11,9 +11,9 @@ include $(TOP)/configure/CONFIG
 # Create and install (or just install)
 # databases, templates, substitutions like this
 DB += tdklambda.template
-DB += tdklambda_old.template
 DB += tdk_compat.template
 DB += loc_rem.template
+DB += scpi_ps.template
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add

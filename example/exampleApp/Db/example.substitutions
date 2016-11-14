@@ -1,7 +1,12 @@
 file tdklambda.template
 {
-  pattern {   name,          ps,   grp  , drvl,  drvh, vdrvh }
-          {bl99:tdklambda,    ps1,  Dipole,  0  ,  5  ,  12  }
+  pattern {   name,          ps,   grp  , drvl,  drvh, vdrvl, vdrvh }
+          {bl99:tdklambda,    ps1,  Dipole,  0  ,  5  ,  0, 12  }
+}
+file scpi_ps.template
+{
+  pattern {   name,          ps,   grp  , drvl,  drvh, vdrvl, vdrvh }
+          {bl99:scpi_ps,    ps1,  Dipole,  0  ,  5  ,  0, 12  }
 }
 
 
