@@ -1,0 +1,317 @@
+record(bo, "$(name):StateSetptOut")
+{
+	info(autosaveFields, "VAL")
+	field(DESC, "Power Supply On/Off")
+	field(DTYP, "stream")
+  	field(OUT,  "@scpi_ps.proto PSU-setonoff $(ps)")
+	field(ZNAM, "OFF")
+	field(ONAM, "ON")
+  	field(FLNK, "$(name):State")
+	field(ASG, "BEAMLINE")
+}
+record(bi, "$(name):State")
+{
+	field(DESC, "Power Supply On/Off Status")
+	field(DTYP, "stream")
+  	field(INP, "@scpi_ps.proto PSU-getonoff $(ps)")
+	field(ZNAM, "OFF")
+	field(ONAM, "ON")
+	field(ZSV,  "MAJOR")
+	field(OSV,  "NO_ALARM")
+  	field(PINI, "YES")
+#	field(FLNK, "$(name):Limits")
+}
+record(bo, "$(name):Reset")
+{
+	field(DESC, "Power Supply Reset")
+	field(DTYP, "stream")
+  	field(OUT,  "@scpi_ps.proto PSU-reset $(ps)")
+	field(ZNAM, "OFF")
+	field(ONAM, "OFF")
+  	field(FLNK, "$(name):ResetSeq")
+	field(ASG, "BEAMLINE")
+}
+record(ai, "$(name):Curr")
+{
+	field(DESC, "Current")
+	field(DTYP, "stream")
+  	field(INP, "@scpi_ps.proto PSU-getcur $(ps)")
+	field(EGU,  "A")
+	field(PREC, "2")
+	field(HOPR, "$(drvh)")
+	field(HIHI, "$(drvh)")
+	field(HIGH, "$(drvh)")
+	field(LOPR, "$(drvl)")
+	field(LOLO, "$(drvl)")
+	field(LOW,  "$(drvl)")
+    	field(ADEL, "$(adel=0.1)")
+	field(HHSV, "MAJOR")
+	field(HSV,  "MINOR")
+	field(LSV,  "MINOR")
+	field(LLSV, "MAJOR")
+	field(HYST, "0.001")
+ 	info (archive, "monitor, 00:00:01, VAL")
+}
+
+record(ao, "$(name):CurrSetpt")
+{
+	info(autosaveFields, "VAL")
+	field(DESC, "Current Setpoint")
+	field(DTYP, "stream")
+  	field(OUT, "@scpi_ps.proto PSU-setcur $(ps)")
+	field(DRVH, "$(drvh)")
+	field(DRVL, "$(drvl)")
+	field(EGU,  "A")
+	field(HOPR, "$(drvh)")
+	field(LOPR, "$(drvl)")
+	field(PREC, "2")
+#        field(PINI, "YES")
+	field(FLNK, "$(name):CurrSetptRdbk")
+	field(ASG, "BEAMLINE")
+}
+record(ai, "$(name):CurrSetptRdbk")
+{
+	field(DESC, "Current Setpoint Readback")
+	field(DTYP, "stream")
+  	field(INP, "@scpi_ps.proto PSU-getsetcur $(ps)")
+	field(EGU,  "A")
+	field(PREC, "2")
+	field(HOPR, "$(drvh)")
+	field(LOPR, "$(drvl)")
+        field(PINI, "YES")
+ 	info (archive, "monitor, 00:00:01, VAL")
+#	field(FLNK, "$(name):RampStatusSeq")
+}
+
+record (stringin, "$(name):IDN")
+{
+	field(DESC, "Identification")
+    	field(DTYP, "stream")
+    	field(INP,  "@scpi_ps.proto versionstring($(name)) $(ps)")
+    	field(PINI, "YES")
+}
+record(stringin, "$(name):SerialNumber")
+{
+	field(DESC, "Serial Number")
+}
+record(stringin, "$(name):FWVersion")
+{
+	field(DESC, "Firmware Version")
+}
+record (stringin, "$(name):Chassis")
+{
+	field(DESC, "Chassis Type")
+}
+record(stringin, "$(name):PSType")
+{
+	field(DESC, "Power Supply Type")
+}
+record(stringin, "$(name):MagnetID")
+{
+	field(DESC, "Magnet ID")
+	field(VAL,  "$(name)")
+	field(PINI, "YES")
+}
+record(ai, "$(name):Volt")
+{
+	field(DESC, "PS Output Voltage")
+	field(DTYP, "stream")
+	field(INP, "@scpi_ps.proto PSU-getvolts $(ps)")
+        field(EGU,  "V")
+        field(PREC, "3")
+	field(HOPR, "$(vdrvh)")
+	field(HIHI, "$(vdrvh)")
+	field(HIGH, "$(vdrvh)")
+	field(LOPR, "$(vdrvl)")
+	field(LOLO, "$(vdrvl)")
+	field(LOW,  "$(vdrvl)")
+	field(HHSV, "MAJOR")
+	field(HSV,  "MINOR")
+	field(LSV,  "MINOR")
+	field(LLSV, "MAJOR")
+	field(HYST, "0.001")
+	field(PINI, "YES")
+	info (archive, "monitor, 00:00:01, VAL")
+}
+record(ao, "$(name):VoltSetpt")
+{
+	info(autosaveFields, "VAL")
+	field(DESC, "Voltage Setpoint")
+	field(DTYP, "stream")
+	field(DOL,  "$(vdol)")
+	field(OUT, "@scpi_ps.proto PSU-setvolts $(ps)")
+        field(EGU,  "V")
+        field(PREC, "3")
+	field(DRVH, "$(vdrvh)")
+	field(HOPR, "$(vdrvh)")
+#        field(PINI, "YES")
+	field(FLNK, "$(name):VoltSetptRdbk")
+	field(ASG, "BEAMLINE")
+	info (archive, "monitor, 00:00:10, VAL")
+}
+record(ai, "$(name):VoltSetptRdbk")
+{
+	field(DESC, "Voltage Setpoint Readback")
+	field(DTYP, "stream")
+	field(INP, "@scpi_ps.proto PSU-getsetvolts $(ps)")
+        field(EGU,  "V")
+        field(PREC, "3")
+	field(HOPR, "$(vdrvh)")
+        field(PINI, "YES")
+}
+
+record(ai, "$(name):OverVoltLevel")
+{
+	field(DESC, "Over-Volt level")
+	field(DTYP, "stream")
+  	field(INP, "@scpi_ps.proto PSU-getovervolts $(ps)")
+	field(EGU,  "V")
+	field(PREC, "2")
+}
+
+record(ao, "$(name):OverVoltSetpt")
+{
+	info(autosaveFields, "VAL")
+	field(DESC, "Over-Volt Setpoint")
+	field(DTYP, "stream")
+  	field(OUT, "@scpi_ps.proto PSU-setovervolts $(ps)")
+	field(EGU,  "V")
+	field(PREC, "2")
+	field(FLNK, "$(name):OverVoltLevel")
+	field(ASG, "BEAMLINE")
+}
+record(ai, "$(name):UnderVoltLevel")
+{
+	field(DESC, "Under-Volt level")
+	field(DTYP, "stream")
+  	field(INP, "@scpi_ps.proto PSU-getundervolts $(ps)")
+	field(EGU,  "V")
+	field(PREC, "2")
+}
+
+record(ao, "$(name):UnderVoltSetpt")
+{
+	info(autosaveFields, "VAL")
+	field(DESC, "Over-Volt Setpoint")
+	field(DTYP, "stream")
+  	field(OUT, "@scpi_ps.proto PSU-setundervolts $(ps)")
+	field(EGU,  "V")
+	field(PREC, "2")
+	field(FLNK, "$(name):UnderVoltLevel")
+	field(ASG, "BEAMLINE")
+}
+record(bo, "$(name):ErrClr")
+{
+	field(DESC, "Clear Errors")
+	field(DTYP, "stream")
+  	field(OUT, "@scpi_ps.proto PSU-errclr $(ps)")
+	field(ZNAM, "RESET")
+	field(ONAM, "NORESET")
+  	field(FLNK, "$(name):ResetSeq")
+	field(ASG, "BEAMLINE")
+}
+record(seq, "$(name):ResetSeq")
+{
+	field(DESC, "Process Events")
+	field(ASG,  "Internal")
+	field(DLY1, "0.1")
+	field(LNK1, "$(name):InfoMsg.PROC PP")
+	field(LNK2, "$(name):QuesEvent.PROC PP")
+	field(LNK3, "$(name):StandardEvent.PROC PP")
+}
+record(seq, "$(name):UpdateFast") 
+{
+#	Process State before Curr since State may change Curr limits.
+	field(DESC, "Fast Update")
+  	field(DO1, "1")
+  	field(DLY1, "0.2")
+  	field(LNK1, "$(name):Volt.PROC")
+ 	field(DO2, "1")
+ 	field(DLY2, "0.2")
+  	field(LNK2, "$(name):State.PROC")
+	field(DO3, "1")
+	field(DLY3, "0.2")
+  	field(LNK3, "$(name):Curr.PROC")
+  	field(SCAN, ".5 second")
+	field(ASG, "")
+}
+
+record(stringin, "$(name):InfoMsg")
+{
+	field(DESC, "Informational Message")
+        field(SCAN, "2 second")
+	field(DTYP, "stream")
+	field(INP,  "@scpi_ps.proto PSU-geterr($(name):InfoNum) $(ps)")
+	field(PINI, "YES")
+	info (archive, "monitor, 00:00:01, VAL")
+}
+
+record(longin, "$(name):InfoNum") {
+	info (archive, "monitor, 00:00:01, VAL")
+}
+
+record(bo, "$(name):ErrClear") {
+   field(ONAM, "Clear")
+   field(DOL, "1")
+   field(ZNAM, "Hold")
+   field(HIGH, "1.0")
+}
+
+record(calcout, "$(name):ErrTest") {
+   field(INPA, "$(name):InfoNum CPP MS")
+   field(INPB, "$(name):ErrClear CPP") 
+   field(CALC, "A||B")
+   field(OOPT, "When Non-zero")
+   field(IVOA, "Don't drive outputs")
+   field(OUT, "$(name):ErrNum.PROC PP")
+}
+
+record(longin, "$(name):ErrNum") {
+   field(INP, "$(name):InfoNum")
+   field(FLNK, "$(name):ErrMsg")
+}
+
+record(stringin, "$(name):ErrMsg") {
+   field(INP, "$(name):InfoMsg")
+}
+
+record(stringout, "$(name):GetAnything") 
+{
+  	field(DESC, "Get Anything")
+  	field(DTYP, "stream")
+	field(OUT, "@scpi_ps.proto debug $(ps)")
+}
+record(stringout, "$(name):SetAnything") 
+{
+  	field(DESC, "Set anything")
+  	field(DTYP, "stream")
+	field(OUT, "@scpi_ps.proto PSU-set $(ps)")
+}
+record(asyn,"$(name):AsynControl")
+{
+	field(DTYP,"asynRecordDevice")
+	field(PORT,"$(ps)")
+}
+# calculate the delivered power
+record(calcout, "$(name):CalcPWR") {
+  field(DESC, "Calculated Power")
+  field(DTYP, "Soft Channel")
+  field(INPA, "$(name):Curr.VAL CPP")
+  field(INPB, "$(name):Volt.VAL CPP")
+  field(SCAN, "Passive")
+  field(CALC, "A*B")
+  field(EGU, "W")
+  field(HOPR, "")
+  field(LOPR, "0")
+  field(PREC, "2")
+  field(PINI, "YES")
+}
+
+record(calcout, "$(name):All:Stat")
+{
+	field(DESC, "Sum of status")
+	field(CALC, "!A||B")
+	field(INPA, "$(name):State CPP NMS")
+  	field(INPB, "$(name):Volt.STAT CPP MS")
+	info (archive, "monitor, 00:00:01, VAL")
+}
