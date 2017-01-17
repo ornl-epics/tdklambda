@@ -29,8 +29,9 @@ debug {
 
 # read error message number into a second longin record
 PSU-geterr {
+   ExtraInput = Ignore; 
    out "SYST:ERR?";
-   in "%(\$1)d,%s";
+   in "%(\$1)d,%#s";
 }
 
 
