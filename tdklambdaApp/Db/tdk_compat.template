@@ -216,8 +216,6 @@ record(seq, "$(name):ResetSeq")
 	field(ASG,  "Internal")
 	field(DLY1, "0.1")
 	field(LNK1, "$(name):InfoMsg.PROC PP")
-	field(LNK2, "$(name):QuesEvent.PROC PP")
-	field(LNK3, "$(name):StandardEvent.PROC PP")
 }
 record(seq, "$(name):UpdateFast") 
 {

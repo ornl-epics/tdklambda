@@ -28,7 +28,6 @@ record(bo, "$(name):Reset")
   	field(OUT,  "@scpi_ps.proto PSU-reset $(ps)")
 	field(ZNAM, "OFF")
 	field(ONAM, "OFF")
-  	field(FLNK, "$(name):ResetSeq")
 	field(ASG, "BEAMLINE")
 }
 record(ai, "$(name):Curr")
@@ -199,25 +198,6 @@ record(ao, "$(name):UnderVoltSetpt")
 	field(PREC, "2")
 	field(FLNK, "$(name):UnderVoltLevel")
 	field(ASG, "BEAMLINE")
-}
-record(bo, "$(name):ErrClr")
-{
-	field(DESC, "Clear Errors")
-	field(DTYP, "stream")
-  	field(OUT, "@scpi_ps.proto PSU-errclr $(ps)")
-	field(ZNAM, "RESET")
-	field(ONAM, "NORESET")
-  	field(FLNK, "$(name):ResetSeq")
-	field(ASG, "BEAMLINE")
-}
-record(seq, "$(name):ResetSeq")
-{
-	field(DESC, "Process Events")
-	field(ASG,  "Internal")
-	field(DLY1, "0.1")
-	field(LNK1, "$(name):InfoMsg.PROC PP")
-	field(LNK2, "$(name):QuesEvent.PROC PP")
-	field(LNK3, "$(name):StandardEvent.PROC PP")
 }
 record(seq, "$(name):UpdateFast") 
 {
