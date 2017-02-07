@@ -252,7 +252,6 @@ record(longin, "$(name):InfoNum") {
 
 record(bo, "$(name):ErrClear") {
    field(ONAM, "Clear")
-   field(DOL, "1")
    field(ZNAM, "Hold")
    field(HIGH, "1.0")
 }
