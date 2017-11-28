@@ -7,6 +7,7 @@ record(bo, "$(name):StateSetptOut")
 	field(ZNAM, "OFF")
 	field(ONAM, "ON")
   	field(FLNK, "$(name):State")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(bi, "$(name):State")
 {
@@ -18,6 +19,7 @@ record(bi, "$(name):State")
 	field(ZSV,  "MAJOR")
 	field(OSV,  "NO_ALARM")
   	field(PINI, "YES")
+        info(archive, "Monitor, 00:00:01, VAL")
 #	field(FLNK, "$(name):Limits")
 }
 record(bo, "$(name):Reset")
@@ -46,6 +48,7 @@ record(ai, "$(name):Curr")
 	field(LLSV, "MAJOR")
 	field(HYST, "0.001")
 #	field(FLNK, "$(name):CurrUpdate")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 
 record(ao, "$(name):CurrSetpt")
@@ -62,6 +65,7 @@ record(ao, "$(name):CurrSetpt")
 	field(PREC, "2")
 #        field(PINI, "YES")
 	field(FLNK, "$(name):CurrSetptRdbk")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(ai, "$(name):CurrSetptRdbk")
 {
@@ -74,6 +78,7 @@ record(ai, "$(name):CurrSetptRdbk")
 #	field(LOPR, "$(drvl)")
         field(PINI, "YES")
 #	field(FLNK, "$(name):RampStatusSeq")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 
 record (stringin, "$(name):IDN")
@@ -123,6 +128,7 @@ record(ai, "$(name):Volt")
 	field(LLSV, "MAJOR")
 	field(HYST, "0.001")
 	field(PINI, "YES")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(ao, "$(name):VoltSetpt")
 {
@@ -137,6 +143,7 @@ record(ao, "$(name):VoltSetpt")
 	field(HOPR, "$(volt_hopr)")
 #        field(PINI, "YES")
 	field(FLNK, "$(name):VoltSetptRdbk")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(ai, "$(name):VoltSetptRdbk")
 {
@@ -147,6 +154,7 @@ record(ai, "$(name):VoltSetptRdbk")
         field(PREC, "3")
 #	field(HOPR, "$(vdrvh)")
         field(PINI, "YES")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 
 record(ai, "$(name):OverVoltLevel")
@@ -156,6 +164,7 @@ record(ai, "$(name):OverVoltLevel")
   	field(INP, "@tdklambda.proto PSU-getovervolts $(ps)")
 	field(EGU,  "V")
 	field(PREC, "2")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 
 record(ao, "$(name):OverVoltSetpt")
@@ -167,6 +176,7 @@ record(ao, "$(name):OverVoltSetpt")
 	field(EGU,  "V")
 	field(PREC, "2")
 	field(FLNK, "$(name):OverVoltLevel")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(ai, "$(name):UnderVoltLevel")
 {
@@ -175,6 +185,7 @@ record(ai, "$(name):UnderVoltLevel")
   	field(INP, "@tdklambda.proto PSU-getundervolts $(ps)")
 	field(EGU,  "V")
 	field(PREC, "2")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 
 record(ao, "$(name):UnderVoltSetpt")
@@ -186,6 +197,7 @@ record(ao, "$(name):UnderVoltSetpt")
 	field(EGU,  "V")
 	field(PREC, "2")
 	field(FLNK, "$(name):UnderVoltLevel")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(stringin, "$(name):CntlAddr")
 {
@@ -201,6 +213,7 @@ record(bo, "$(name):ErrClr")
 	field(ZNAM, "RESET")
 	field(ONAM, "NORESET")
   	field(FLNK, "$(name):ResetSeq")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(seq, "$(name):ResetSeq")
 {
@@ -276,6 +289,7 @@ record(bi, "$(name):ACStatus")
         field(ZSV,  "NO_ALARM")
         field(OSV,  "MAJOR")
 	field(FLNK, "$(name):OverTemp")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(bi, "$(name):OverTemp")
 {
@@ -286,6 +300,7 @@ record(bi, "$(name):OverTemp")
         field(ZSV,  "NO_ALARM")
         field(OSV,  "MAJOR")
 	field(FLNK, "$(name):FoldBack")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(bi, "$(name):FoldBack")
 {
@@ -296,6 +311,7 @@ record(bi, "$(name):FoldBack")
         field(ZSV,  "NO_ALARM")
         field(OSV,  "MAJOR")
 	field(FLNK, "$(name):OverVolt")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(bi, "$(name):OverVolt")
 {
@@ -306,6 +322,7 @@ record(bi, "$(name):OverVolt")
         field(ZSV,  "NO_ALARM")
         field(OSV,  "MAJOR")
 	field(FLNK, "$(name):ShutOff")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(bi, "$(name):ShutOff")
 {
@@ -316,6 +333,7 @@ record(bi, "$(name):ShutOff")
         field(ZSV,  "NO_ALARM")
         field(OSV,  "MAJOR")
 	field(FLNK, "$(name):ManualOff")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(bi, "$(name):ManualOff")
 {
@@ -326,6 +344,7 @@ record(bi, "$(name):ManualOff")
         field(ZSV,  "NO_ALARM")
         field(OSV,  "MAJOR")
 	field(FLNK, "$(name):OutputStatus")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(bi, "$(name):OutputStatus")
 {
@@ -336,6 +355,7 @@ record(bi, "$(name):OutputStatus")
         field(ZSV,  "NO_ALARM")
         field(OSV,  "MAJOR")
 	field(FLNK, "$(name):IntInputOverFlow")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(bi, "$(name):IntInputOverFlow")
 {
@@ -346,6 +366,7 @@ record(bi, "$(name):IntInputOverFlow")
         field(ZSV,  "NO_ALARM")
         field(OSV,  "MAJOR")
 	field(FLNK, "$(name):IntOverFlow")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(bi, "$(name):IntOverFlow")
 {
@@ -356,6 +377,7 @@ record(bi, "$(name):IntOverFlow")
         field(ZSV,  "NO_ALARM")
         field(OSV,  "MAJOR")
 	field(FLNK, "$(name):IntTimeOut")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(bi, "$(name):IntTimeOut")
 {
@@ -366,6 +388,7 @@ record(bi, "$(name):IntTimeOut")
         field(ZSV,  "NO_ALARM")
         field(OSV,  "MAJOR")
 	field(FLNK, "$(name):IntCommError")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(bi, "$(name):IntCommError")
 {
@@ -376,6 +399,7 @@ record(bi, "$(name):IntCommError")
         field(ZSV,  "NO_ALARM")
         field(OSV,  "MAJOR")
 	field(FLNK, "$(name):StatusCalc")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(calcout, "$(name):StatusCalc")
 {
@@ -393,6 +417,7 @@ record(bi, "$(name):Status")
 	field(ONAM, "OK")
         field(ZSV,  "MAJOR")
         field(OSV,  "NO_ALARM")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(longout, "$(name):StandardEnable") 
 {
@@ -427,6 +452,7 @@ record(bi, "$(name):VoltMode")
         field(ZSV,  "NO_ALARM")
         field(OSV,  "MAJOR")
 	field(FLNK, "$(name):Ready")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(bi, "$(name):Ready")
 {
@@ -437,6 +463,7 @@ record(bi, "$(name):Ready")
         field(ZSV,  "MAJOR")
         field(OSV,  "NO_ALARM")
 	field(FLNK, "$(name):AutoStartMode")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(bi, "$(name):AutoStartMode")
 {
@@ -447,6 +474,7 @@ record(bi, "$(name):AutoStartMode")
         field(ZSV,  "NO_ALARM")
         field(OSV,  "MAJOR")
 	field(FLNK, "$(name):FoldBackMode")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(bi, "$(name):FoldBackMode")
 {
@@ -457,6 +485,7 @@ record(bi, "$(name):FoldBackMode")
         field(OSV,  "NO_ALARM")
         field(ZSV,  "MAJOR")
 	field(FLNK, "$(name):Mode")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(bi, "$(name):Mode")
 {
@@ -466,6 +495,7 @@ record(bi, "$(name):Mode")
 	field(ONAM, "Local")
         field(ZSV,  "NO_ALARM")
         field(OSV,  "MAJOR")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(mbbo, "$(name):ModeSetpt")
 {
@@ -482,6 +512,7 @@ record(mbbo, "$(name):ModeSetpt")
         field(TWSV, "NO_ALARM")
 #	field(PINI, "YES")
 	field(FLNK, "$(name):OperStatus")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 record(mbbiDirect, "$(name):Event") 
 {
@@ -540,6 +571,7 @@ record(calcout, "$(name):CalcPWR") {
   field(LOPR, "0")
   field(PREC, "2")
   field(PINI, "YES")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 
 record(bi, "$(name):FoldBackTrip")
@@ -552,6 +584,7 @@ record(bi, "$(name):FoldBackTrip")
 	field(OSV,  "MAJOR")
 	field(ZSV,  "NO_ALARM")
   	field(SCAN, "1 second")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 
 record(bo, "$(name):FoldBackSet")
@@ -563,6 +596,7 @@ record(bo, "$(name):FoldBackSet")
 	field(ZNAM, "Disable")
 	field(ONAM, "Enable")
   	field(FLNK, "$(name):FoldBackMode")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
 
 record(calcout, "$(name):All:Stat")
@@ -579,4 +613,5 @@ record(calcout, "$(name):All:Stat")
 #  	field(INPH, "$(name):ShutOff CPP MS")
 #  	field(INPI, "$(name):ManualOff CPP MS")
 #	field(FLNK, "$(name):InfoMsg")
+        info(archive, "Monitor, 00:00:01, VAL")
 }
