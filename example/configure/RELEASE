@@ -21,19 +21,19 @@
 
 TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 
-SUPPORT=/home/controls/epics/R3.14.12.2/support
+SUPPORT=/home/controls/epics/
 
-ASYN=           $(SUPPORT)/asyn
-STREAMDEVICE=   $(SUPPORT)/StreamDevice
-TDKLAMBDA=      $(SUPPORT)/tdklambda
-DEVIOCSTATS=    $(SUPPORT)/devIocStats
-AUTOSAVE=       $(SUPPORT)/autosave
+ASYN=           $(SUPPORT)/asyn/master
+STREAMDEVICE=   $(SUPPORT)/StreamDevice/master
+TDKLAMBDA=      $(SUPPORT)/tdklambda/master
+DEVIOCSTATS=    $(SUPPORT)/devIocStats/master
+AUTOSAVE=       $(SUPPORT)/autosave/master
 
 # If using the sequencer, point SNCSEQ at its top directory:
 #SNCSEQ=$(EPICS_BASE)/../modules/soft/seq
 
 # EPICS_BASE usually appears last so other apps can override stuff:
-EPICS_BASE=/home/controls/epics/R3.14.12.2/base
+EPICS_BASE=/home/controls/epics/base/master
 
 # Set RULES here if you want to take build rules from somewhere
 # other than EPICS_BASE:

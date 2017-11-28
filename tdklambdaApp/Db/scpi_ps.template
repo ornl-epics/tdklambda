@@ -3,7 +3,7 @@ record(bo, "$(name):StateSetptOut")
 	info(autosaveFields, "VAL")
 	field(DESC, "Power Supply On/Off")
 	field(DTYP, "stream")
-  	field(OUT,  "@tdk_compat.proto PSU-setonoff $(ps)")
+  	field(OUT,  "@scpi_ps.proto PSU-setonoff $(ps)")
 	field(ZNAM, "OFF")
 	field(ONAM, "ON")
   	field(FLNK, "$(name):State")
@@ -13,7 +13,7 @@ record(bi, "$(name):State")
 {
 	field(DESC, "Power Supply On/Off Status")
 	field(DTYP, "stream")
-  	field(INP, "@tdk_compat.proto PSU-getonoff $(ps)")
+  	field(INP, "@scpi_ps.proto PSU-getonoff $(ps)")
 	field(ZNAM, "OFF")
 	field(ONAM, "ON")
 	field(ZSV,  "MAJOR")
@@ -25,17 +25,16 @@ record(bo, "$(name):Reset")
 {
 	field(DESC, "Power Supply Reset")
 	field(DTYP, "stream")
-  	field(OUT,  "@tdk_compat.proto PSU-reset $(ps)")
+  	field(OUT,  "@scpi_ps.proto PSU-reset $(ps)")
 	field(ZNAM, "OFF")
 	field(ONAM, "OFF")
-  	field(FLNK, "$(name):ResetSeq")
 	field(ASG, "BEAMLINE")
 }
 record(ai, "$(name):Curr")
 {
 	field(DESC, "Current")
 	field(DTYP, "stream")
-  	field(INP, "@tdk_compat.proto PSU-getcur $(ps)")
+  	field(INP, "@scpi_ps.proto PSU-getcur $(ps)")
 	field(EGU,  "A")
 	field(PREC, "2")
 	field(HOPR, "$(drvh)")
@@ -58,7 +57,7 @@ record(ao, "$(name):CurrSetpt")
 	info(autosaveFields, "VAL")
 	field(DESC, "Current Setpoint")
 	field(DTYP, "stream")
-  	field(OUT, "@tdk_compat.proto PSU-setcur $(ps)")
+  	field(OUT, "@scpi_ps.proto PSU-setcur $(ps)")
 	field(DRVH, "$(drvh)")
 	field(DRVL, "$(drvl)")
 	field(EGU,  "A")
@@ -73,7 +72,7 @@ record(ai, "$(name):CurrSetptRdbk")
 {
 	field(DESC, "Current Setpoint Readback")
 	field(DTYP, "stream")
-  	field(INP, "@tdk_compat.proto PSU-getsetcur $(ps)")
+  	field(INP, "@scpi_ps.proto PSU-getsetcur $(ps)")
 	field(EGU,  "A")
 	field(PREC, "2")
 	field(HOPR, "$(drvh)")
@@ -87,7 +86,7 @@ record (stringin, "$(name):IDN")
 {
 	field(DESC, "Identification")
     	field(DTYP, "stream")
-    	field(INP,  "@tdk_compat.proto versionstring($(name)) $(ps)")
+    	field(INP,  "@scpi_ps.proto versionstring($(name)) $(ps)")
     	field(PINI, "YES")
 }
 record(stringin, "$(name):SerialNumber")
@@ -116,7 +115,7 @@ record(ai, "$(name):Volt")
 {
 	field(DESC, "PS Output Voltage")
 	field(DTYP, "stream")
-	field(INP, "@tdk_compat.proto PSU-getvolts $(ps)")
+	field(INP, "@scpi_ps.proto PSU-getvolts $(ps)")
         field(EGU,  "V")
         field(PREC, "3")
 	field(HOPR, "$(vdrvh)")
@@ -139,7 +138,7 @@ record(ao, "$(name):VoltSetpt")
 	field(DESC, "Voltage Setpoint")
 	field(DTYP, "stream")
 	field(DOL,  "$(vdol)")
-	field(OUT, "@tdk_compat.proto PSU-setvolts $(ps)")
+	field(OUT, "@scpi_ps.proto PSU-setvolts $(ps)")
         field(EGU,  "V")
         field(PREC, "3")
 	field(DRVH, "$(vdrvh)")
@@ -153,7 +152,7 @@ record(ai, "$(name):VoltSetptRdbk")
 {
 	field(DESC, "Voltage Setpoint Readback")
 	field(DTYP, "stream")
-	field(INP, "@tdk_compat.proto PSU-getsetvolts $(ps)")
+	field(INP, "@scpi_ps.proto PSU-getsetvolts $(ps)")
         field(EGU,  "V")
         field(PREC, "3")
 	field(HOPR, "$(vdrvh)")
@@ -164,7 +163,7 @@ record(ai, "$(name):OverVoltLevel")
 {
 	field(DESC, "Over-Volt level")
 	field(DTYP, "stream")
-  	field(INP, "@tdk_compat.proto PSU-getovervolts $(ps)")
+  	field(INP, "@scpi_ps.proto PSU-getovervolts $(ps)")
 	field(EGU,  "V")
 	field(PREC, "2")
 }
@@ -174,7 +173,7 @@ record(ao, "$(name):OverVoltSetpt")
 	info(autosaveFields, "VAL")
 	field(DESC, "Over-Volt Setpoint")
 	field(DTYP, "stream")
-  	field(OUT, "@tdk_compat.proto PSU-setovervolts $(ps)")
+  	field(OUT, "@scpi_ps.proto PSU-setovervolts $(ps)")
 	field(EGU,  "V")
 	field(PREC, "2")
 	field(FLNK, "$(name):OverVoltLevel")
@@ -184,7 +183,7 @@ record(ai, "$(name):UnderVoltLevel")
 {
 	field(DESC, "Under-Volt level")
 	field(DTYP, "stream")
-  	field(INP, "@tdk_compat.proto PSU-getundervolts $(ps)")
+  	field(INP, "@scpi_ps.proto PSU-getundervolts $(ps)")
 	field(EGU,  "V")
 	field(PREC, "2")
 }
@@ -194,28 +193,11 @@ record(ao, "$(name):UnderVoltSetpt")
 	info(autosaveFields, "VAL")
 	field(DESC, "Over-Volt Setpoint")
 	field(DTYP, "stream")
-  	field(OUT, "@tdk_compat.proto PSU-setundervolts $(ps)")
+  	field(OUT, "@scpi_ps.proto PSU-setundervolts $(ps)")
 	field(EGU,  "V")
 	field(PREC, "2")
 	field(FLNK, "$(name):UnderVoltLevel")
 	field(ASG, "BEAMLINE")
-}
-record(bo, "$(name):ErrClr")
-{
-	field(DESC, "Clear Errors")
-	field(DTYP, "stream")
-  	field(OUT, "@tdk_compat.proto PSU-errclr $(ps)")
-	field(ZNAM, "RESET")
-	field(ONAM, "NORESET")
-  	field(FLNK, "$(name):ResetSeq")
-	field(ASG, "BEAMLINE")
-}
-record(seq, "$(name):ResetSeq")
-{
-	field(DESC, "Process Events")
-	field(ASG,  "Internal")
-	field(DLY1, "0.1")
-	field(LNK1, "$(name):InfoMsg.PROC PP")
 }
 record(seq, "$(name):UpdateFast") 
 {
@@ -237,22 +219,52 @@ record(seq, "$(name):UpdateFast")
 record(stringin, "$(name):InfoMsg")
 {
 	field(DESC, "Informational Message")
+        field(SCAN, "2 second")
 	field(DTYP, "stream")
-	field(INP,  "@tdk_compat.proto PSU-geterror $(ps)")
+	field(INP,  "@scpi_ps.proto PSU-geterr($(name):InfoNum) $(ps)")
 	field(PINI, "YES")
 	info (archive, "monitor, 00:00:01, VAL")
 }
+
+record(longin, "$(name):InfoNum") {
+	info (archive, "monitor, 00:00:01, VAL")
+}
+
+record(bo, "$(name):ErrClear") {
+   field(ONAM, "Clear")
+   field(ZNAM, "Hold")
+   field(HIGH, "1.0")
+}
+
+record(calcout, "$(name):ErrTest") {
+   field(INPA, "$(name):InfoNum CPP MS")
+   field(INPB, "$(name):ErrClear CPP") 
+   field(CALC, "A||B")
+   field(OOPT, "When Non-zero")
+   field(IVOA, "Don't drive outputs")
+   field(OUT, "$(name):ErrNum.PROC PP")
+}
+
+record(longin, "$(name):ErrNum") {
+   field(INP, "$(name):InfoNum")
+   field(FLNK, "$(name):ErrMsg")
+}
+
+record(stringin, "$(name):ErrMsg") {
+   field(INP, "$(name):InfoMsg")
+}
+
 record(stringout, "$(name):GetAnything") 
 {
   	field(DESC, "Get Anything")
   	field(DTYP, "stream")
-	field(OUT, "@tdk_compat.proto debug $(ps)")
+	field(OUT, "@scpi_ps.proto debug $(ps)")
 }
 record(stringout, "$(name):SetAnything") 
 {
   	field(DESC, "Set anything")
   	field(DTYP, "stream")
-	field(OUT, "@tdk_compat.proto PSU-set $(ps)")
+	field(OUT, "@scpi_ps.proto PSU-set $(ps)")
 }
 record(asyn,"$(name):AsynControl")
 {
