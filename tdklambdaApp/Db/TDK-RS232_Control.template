@@ -1,0 +1,303 @@
+####  Macro Definitions  ####
+# (bl)	- Beam Line
+# (ta)	- Target Area
+# (dn)	- Device Name
+
+###############
+# =============   Output Control PV's   =============
+###############
+# Obtain the Command Acknowledge response
+record(stringin, "$(bl):$(ta):$(dn):CommandACK")										{
+																						}
+
+# -----------
+# Get Voltage setpoint from the power supply
+record(ai, "$(bl):$(ta):$(dn):VoltValue")												{
+	field(SCAN,	"10 second")
+	field(PINI,	"YES")
+	field(EGU,	"V")
+	field(PREC,	"3")
+	field(DTYP,	"stream")
+	field(INP,	"@tdklambda-rs232.proto PSU-get.v tdk232")
+	field(MDEL,	"0.01")
+	info(archive, "Monitor, 00:01:00")													}
+
+# Get Measured Voltage from the power supply
+record(ai, "$(bl):$(ta):$(dn):VoltActual")												{
+	field(SCAN,	"1 second")
+	field(PINI,	"YES")
+	field(EGU,	"V")
+	field(PREC,	"1")
+	field(DTYP,	"stream")
+	field(INP,	"@tdklambda-rs232.proto PSU-meas.v tdk232")
+	field(MDEL,	"0.1")
+	info(archive, "Monitor, 00:01:00")													}
+
+# Set Voltage on the power supply
+record(ao, "$(bl):$(ta):$(dn):VoltSet")													{
+	field(SCAN,	"Passive")
+	field(PINI,	"YES")
+	field(DOL,	"65")
+	field(EGU,	"V")
+	field(PREC,	"1")
+	field(HOPR,	"$(bl):$(ta):$(dn):VoltMax.VAL")
+	field(LOPR,	"0")
+	field(DRVH,	"$(bl):$(ta):$(dn):VoltMax.VAL")
+	field(DRVL,	"0")
+	field(DTYP,	"stream")
+	field(OUT,	"@tdklambda-rs232.proto PSU-set.v tdk232")
+	info(archive, "Monitor, 00:01:00")													}
+
+# Define the Maximum Voltage Limit, default to limits set by the manual
+record(ao, "$(bl):$(ta):$(dn):VoltMax")													{
+	field(SCAN,	"Passive")
+	field(DOL,	"65")
+	field(EGU,	"V")
+	field(PREC,	"1")
+	field(HOPR,	"150")
+	field(LOPR,	"0")
+	field(DRVH,	"150")
+	field(DRVL,	"0")																	}
+
+
+# -----------
+# Get Current setpoint from the power supply
+record(ai, "$(bl):$(ta):$(dn):AmpsValue")												{
+	field(SCAN,	"10 second")
+	field(PINI,	"YES")
+	field(EGU,	"A")
+	field(PREC,	"1")
+	field(DTYP,	"stream")
+	field(INP,	"@tdklambda-rs232.proto PSU-get.c tdk232")
+	field(MDEL,	"0.1")
+	info(archive, "Monitor, 00:01:00")													}
+
+# Get Measured Current from the power supply
+record(ai, "$(bl):$(ta):$(dn):AmpsActual")												{
+	field(SCAN,	"1 second")
+	field(PINI,	"YES")
+	field(EGU,	"A")
+	field(PREC,	"1")
+	field(DTYP,	"stream")
+	field(INP,	"@tdklambda-rs232.proto PSU-meas.c tdk232")
+	field(MDEL,	"0.1")
+	info(archive, "Monitor, 00:01:00")													}
+
+# Set Current on the power supply
+record(ao, "$(bl):$(ta):$(dn):AmpsSet")													{
+	field(SCAN,	"Passive")
+	field(PINI,	"YES")
+	field(EGU,	"A")
+	field(PREC,	"1")
+	field(HOPR,	"$(bl):$(ta):$(dn):AmpsMax.VAL")
+	field(LOPR,	"0")
+	field(DRVH,	"$(bl):$(ta):$(dn):AmpsMax.VAL")
+	field(DRVL,	"0")
+	field(DTYP,	"stream")
+	field(OUT,	"@tdklambda-rs232.proto PSU-set.c tdk232")
+	info(archive, "Monitor, 00:01:00")													}
+
+# Define the Maximum Current Limit, permissable limits set by the manual
+record(ao, "$(bl):$(ta):$(dn):AmpsMax")													{
+	field(SCAN,	"Passive")
+	field(EGU,	"A")
+	field(PREC,	"1")
+	field(HOPR,	"66")
+	field(LOPR,	"0")
+	field(DRVH,	"66")
+	field(DRVL,	"0")																	}
+
+
+# -----------
+# Get the Filter value
+record (mbbi,  "$(bl):$(ta):$(dn):GetFilter")											{
+	field(SCAN,	"Passive")
+	field(PINI,	"YES")
+	field(DTYP,	"stream")
+	field(ZRVL,	"0")
+	field(ZRST,	"18 Hz")
+	field(ONVL,	"1")
+	field(ONST,	"23 Hz")
+	field(TWVL,	"2")
+	field(TWST,	"46 Hz")
+	field(INP,	"@tdklambda-rs232.proto PSU-get.fltr tdk232")							}
+
+# Set the Filter Value
+record (mbbo,  "$(bl):$(ta):$(dn):SetFilter")												{
+	field(SCAN,	"Passive")
+	field(PINI,	"YES")
+	field(DTYP,	"stream")
+	field(ZRVL,	"0")
+	field(ZRST,	"18 Hz")
+	field(ONVL,	"1")
+	field(ONST,	"23 Hz")
+	field(TWVL,	"2")
+	field(TWST,	"46 Hz")
+	field(OUT,	"@tdklambda-rs232.proto PSU-set.fltr tdk232")							}
+
+
+# -----------
+# Get the Output Status
+record (bi,  "$(bl):$(ta):$(dn):GetOutput")												{
+	field(SCAN,	"1 second")
+	field(PINI,	"YES")
+	field(DTYP,	"stream")
+	field(ZRST,	"Off")
+	field(ONST,	"On")
+	field(INP,	"@tdklambda-rs232.proto PSU-get.out tdk232")							}
+
+# Set the Output State
+record (bo,  "$(bl):$(ta):$(dn):SetOutput")												{
+	field(SCAN,	"Passive")
+	field(PINI,	"YES")
+	field(DTYP,	"stream")
+	field(ZRST,	"Off")
+	field(ONST,	"On")
+	field(OUT,	"@tdklambda-rs232.proto PSU-set.fltr tdk232")							}
+
+
+# -----------
+# Get the Foldback Status
+record (bi,  "$(bl):$(ta):$(dn):GetFldbStatus")											{
+	field(SCAN,	"1 second")
+	field(PINI,	"YES")
+	field(DTYP,	"stream")
+	field(ZRST,	"Off")
+	field(ONST,	"On")
+	field(INP,	"@tdklambda-rs232.proto PSU-get.fld tdk232")							}
+
+# Set the Foldback State
+record (bo,  "$(bl):$(ta):$(dn):SetFoldback")											{
+	field(SCAN,	"Passive")
+	field(PINI,	"YES")
+	field(DTYP,	"stream")
+	field(ZRST,	"Off")
+	field(ONST,	"On")
+	field(OUT,	"@tdklambda-rs232.proto PSU-set.fld tdk232")
+	field(FLNK,	"$(bl):$(ta):$(dn):GetOutput")											}
+
+# Get Foldback Delay
+record(ai,  "$(bl):$(ta):$(dn):GetFldbDelay")											{
+	field(SCAN,	"10 second")
+	field(PINI,	"YES")
+	field(EGU,	"s")
+	field(PREC,	"1")
+	field(LINR,	"LINEAR")
+	field(EGUL,	"0")
+	field(EGUF,	"25.5")
+	field(DTYP,	"stream")
+	field(INP,	"@tdklambda-rs232.proto PSU-get.fbd tdk232")
+
+# Set Foldback Delay
+record(ao,  "$(bl):$(ta):$(dn):SetFldbDelay")											{
+	field(SCAN,	"Passive")
+	field(PINI,	"YES")
+	field(EGU,	"s")
+	field(PREC,	"1")
+	field(HOPR,	"25.5")
+	field(LOPR,	"0")
+	field(DRVH,	"25.5")
+	field(DRVL,	"0")
+	field(LINR,	"LINEAR")
+	field(EGUL,	"0")
+	field(EGUF,	"255")
+	field(DTYP,	"stream")
+	field(OUT,	"@tdklambda-rs232.proto PSU-set.fbd tdk232")
+	field(FLNK,	"$(bl):$(ta):$(dn):SetFldbDelay")										}
+
+# Reset Foldback Delay
+record(bo,  "$(bl):$(ta):$(dn):ResetFldbDelay")											{
+	field(SCAN,	"Passive")
+	field(ZNAM,	"Reset Foldback Delay")
+	field(ONAM,	"Resetting Foldback Delay")
+	field(HIGH,	"0.5")
+	field(DTYP,	"stream")
+	field(OUT,	"@tdklambda-rs232.proto PSU-reset.fbd tdk232")							}
+
+
+# -----------
+# Define Overvoltage Upper Limit (HOPR) based upon the Maximum Voltage
+record(calc,  "$(bl):$(ta):$(dn):CalcOVPUpper")											{
+	field(INPA,	"$(bl):$(ta):$(dn):VoltMax)
+	field(INPB,	"1.05")
+	field(CALC,	"A * B")
+	field(DOPT,	"Use CALC")
+	field(OOPT,	"Every Time")															}
+
+# Get the OverVoltage value from the power supply
+record(ai,  "$(bl):$(ta):$(dn):GetOVP")													{
+	field(SCAN,	"10 second")
+	field(PINI,	"YES")
+	field(EGU,	"V")
+	field(PREC,	"1")
+	field(DTYP,	"stream")
+	field(OUT,	"@tdklambda-rs232.proto PSU-get.ovp tdk232")							}
+
+# Set the OverVoltage value
+record(ao,  "$(bl):$(ta):$(dn):SetOVP")													{
+	field(SCAN,	"Passive")
+	field(PINI,	"YES")
+	field(EGU,	"V")
+	field(PREC,	"1")
+	field(HOPR,	"$(bl):$(ta):$(dn):CalcOVPUpper CP")
+	field(LOPR,	"0")
+	field(DRVH,	"165")
+	field(DRVL,	"15")
+	field(DTYP,	"stream")
+	field(OUT,	"@tdklambda-rs232.proto PSU-set.ovp tdk232")
+	field(FLNK,	"$(bl):$(ta):$(dn):GetOVP")												}
+
+# -----------
+# Get the UnderVoltage value from the power supply
+record(ai,  "$(bl):$(ta):$(dn):GetUVL")													{
+	field(SCAN,	"10 second")
+	field(PINI,	"YES")
+	field(EGU,	"V")
+	field(PREC,	"1")
+	field(DTYP,	"stream")
+	field(OUT,	"@tdklambda-rs232.proto PSU-get.uvl tdk232")							}
+
+# Set the UnderVoltage value
+record(ao,  "$(bl):$(ta):$(dn):SetUVL")													{
+	field(SCAN,	"Passive")
+	field(PINI,	"YES")
+	field(EGU,	"V")
+	field(PREC,	"1")
+	field(HOPR,	"142.5")
+	field(LOPR,	"0")
+	field(DRVH,	"142.5")
+	field(DRVL,	"0")
+	field(DTYP,	"stream")
+	field(OUT,	"@tdklambda-rs232.proto PSU-set.uvl tdk232")
+	field(FLNK,	"$(bl):$(ta):$(dn):GetUVL")												}
+
+
+# -----------
+# Get the Auto-Start Mode
+record (bi,  "$(bl):$(ta):$(dn):GetAStart")												{
+	field(SCAN,	"10 second")
+	field(PINI,	"YES")
+	field(DTYP,	"stream")
+	field(ZRST,	"Off")
+	field(ONST,	"On")
+	field(INP,	"@tdklambda-rs232.proto PSU-get.ast tdk232")							}
+
+# Set the Auto-Start Mode
+record (bo,  "$(bl):$(ta):$(dn):SetAStart")												{
+	field(SCAN,	"Passive")
+	field(PINI,	"YES")
+	field(DTYP,	"stream")
+	field(ZRST,	"Off")
+	field(ONST,	"On")
+	field(OUT,	"@tdklambda-rs232.proto PSU-set.fltr tdk232")							}
+
+
+# -----------
+# Get the Power Supply Output Mode
+record (stringin,  "$(bl):$(ta):$(dn):GetOpMode")										{
+	field(SCAN,	"1 second")
+	field(PINI,	"YES")
+	field(DTYP,	"stream")
+	field(INP,	"@tdklambda-rs232.proto PSU-get.mode tdk232")							}
+
+

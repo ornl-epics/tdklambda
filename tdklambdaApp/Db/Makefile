@@ -11,6 +11,9 @@ include $(TOP)/configure/CONFIG
 # Create and install (or just install)
 # databases, templates, substitutions like this
 DB += tdklambda.template
+TDK-RS232_Alarm.template
+TDK-RS232_Control.template
+TDK-RS232_General.template
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add

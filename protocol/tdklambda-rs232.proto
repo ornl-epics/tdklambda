@@ -1,0 +1,201 @@
+#
+# TDKLambda Genesys RS-232 Interface stream device protocol file
+#
+
+OutTerminator = ";";
+Terminator  = CR;
+LockTimeout   = 1000;
+ReplyTimeout  = 1000;
+WriteTimeout  = 1000;
+
+# TDK-Lambda Genesys 10KW/15KW Programmable DC Power Supply
+# Default settings based upon the RST command less any autosave records
+#	Output Voltage: tbd 0
+#	Output Current: tbd 0
+#	Output: Off
+#	Foldback: Off
+#	Remote: Non-lockout remote
+#	OVP: tbd Maximum
+#	UVL: tbd 0
+#	Startup Mode: Safe Start
+
+
+debug {
+    ExtraInput = Ignore;
+    out "%s"; in "%39c"}
+
+# Connect a stringout record to this to get a generic command interface.
+# After processing finishes, the record contains the reply.
+
+PSU-set			{out "%s"; 					in "%(\$1:CommandACK.VAL)s";	}
+PSU-get			{out "%s"; ExtraInput = Ignore; in "%39c";					}
+
+
+##################
+#####################    Inititialization Control
+##################
+
+########
+########  I had the PSU.init.(PV) added in order to set the control PV to the value of the PS.
+########  Test the IOC to determine if I need to add these back into this protocol file.
+########
+
+# Define the Address of the Unit to initiate communications
+PSU-adr				{out "ADR %d";											}
+
+# Clear the status registers
+PSU-cls				{out "*CLS";											}
+
+# Send a Reset to the unit
+PSU-reset			{out "*RST";											}
+
+#??? Get the Operating Mode
+PSU-get.rmt			{out "RMT?";			in "%{LOC|REM|LLO}";			}
+
+#??? Set the unit to local or remote mode
+PSU-set.rmt			{out "RMT %{LOC|REM|LLO}";
+						in "%(\$1:CommandACK.VAL)s";						}
+
+
+
+##################
+#####################    Identitification Control
+##################
+
+# Identify the Units Model Number
+PSU-idn				{out "IDN?";			in "%s";						}
+
+# Get the Software Version
+PSU-rev				{out "REV?";			in "%s";						}
+
+# Get the Serial Number
+PSU-sn				{out "SN?";				in "%s";						}
+
+# Get the Test Date
+PSU-date			{out "DATE?";			in "%s";						}
+
+
+
+##################
+#####################    Output Control
+##################
+
+###  Get/Set commands will be place in order of Get then Set for any initialization (@init) purposes.
+###  Get/Set commands are constructed to be general.
+
+# Get the Voltage value (SV) from the unit
+PSU-get.v			{out "PV?";				in "%f";						}
+
+# Get the measured (actual) Voltage
+PSU-meas.v			{out "MV?";				in "%f";						}
+
+# Set the Voltage
+PSU-set.v			{out "PV %f";			in "%(\$1:CommandACK.VAL)s";
+					 	@init {PSU-get.v;}; wait 100;						}
+
+# -----------
+# Get the Current value (SV) from the unit
+PSU-get.c			{out "PC?";				in "%f";						}
+
+# Get the measured (actual) Current
+PSU-meas.c			{out "MC?";				in "%f";						}
+
+# Set the current
+PSU-set.c			{out "PC %f";			in "%(\$1:CommandACK.VAL)s";		
+					 	@init {PSU-get.c;}; wait 100;						}
+
+# -----------
+# Get the Filter value
+PSU-get.fltr		{out "FILTER?";			in "%{18|23|48}";				}
+
+# Set the Filter
+PSU-set.fltr		{out "FILTER %{18|23|48}";
+						in "%(\$1:CommandACK.VAL)s";
+					 	@init {PSU-get.fltr;}; wait 100;					}
+
+# -----------
+# Get the output status
+PSU-get.out			{out "OUT?";			in "%{OFF|ON}";					}
+
+# Set the output state
+PSU-set.out			{out "OUT %{OUT OFF|OUT ON}";
+						in "%(\$1:CommandACK.VAL)";
+					 	@init {PSU-get.out;}: wait 100;						}
+
+# -----------
+# Get Foldback Status
+PSU-get-fld			{out "FLD?";			in "%{OFF|ON}";					}
+
+# Set the Foldback state
+PSU-set.fld			{out "FLB %{FOLD OFF|FOLD ON}";
+						in "%(\$1:CommandACK.VAL)s";
+					 	@init {PSU-get.fld;}: wait 100;						}
+
+# Get Foldback Delay
+PSU-get-fbd			{out "FBD?";			in "%d";						}
+
+# Set the Foldback Delay
+PSU-set.fbd			{out "FBD %d";			in "%(\$1:CommandACK.VAL)"s;
+					 	@init {PSU-get.fbd;}; wait 100;						}
+
+# Reset the Foldback Delay
+PSU-reset.fbd		{out "FBDRST";
+						in "%(\$1:CommandACK.VAL)"s;						}
+
+# -----------
+# Get the Overvoltage
+PSU-get.ovp			{out "OVP?";			in "%f";						}
+
+# Set the Overvoltage
+PSU-set.ovp			{out "OVP %f";			in "%(\$1:CommandACK.VAL)s";
+					 	@init {PSU-get.ovp;}: wait 100;						}
+
+
+# -----------
+# Get the Undervoltage
+PSU-get.uvl			{out "UVL?";			in "%f";						}
+
+# Set the Undervoltage
+PSU-set.uvl			{out "UVL %f";			in "%(\$1:CommandACK.VAL)s";
+					 	@init {PSU-init.uvl;}; wait 100;					}
+
+
+# -----------
+# Get the Auto-Restart Mode
+PSU-get.ast			{out "AST?";			in "%{OFF|ON}";					}
+
+# Set the Auto-Restart Mode
+PSU-set.ast			{out "AST %{AST OFF|AST ON}";
+						in "%(\$1:CommandACK.VAL)s";
+					 	@init {PSU-get.ast;}; wait 100;						}
+
+
+# -----------
+# Get the Operation Mode
+PSU-get.mode		{out "MODE?";			in "%s";						}
+
+
+
+
+
+##################
+#####################    Fault Conditions
+##################
+
+# Get the Fault Condition Register Values
+PSU-get.flt			{out "FLT?";			in "%i";						}
+
+# Get which Fault Condition Registers are Enabled
+PSU-get.fena		{out "FENA?";			in "%i";						}
+
+# Set which Fault Condition Registers are Enabled
+PSU-set.fena		{out "FENA %i";
+						@init {PSU-get-FENA;}; wait 100;					}
+
+
+
+
+
+
+
+

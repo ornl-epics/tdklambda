@@ -1,0 +1,92 @@
+####  Macro Definitions  ####
+# (bl)	- Beam Line
+# (ta)	- Target Area
+# (dn)	- Device Name
+
+###############
+# =============   Identification Control PV's   =============
+###############
+# Get IDN
+record(stringin, "$(bl):$(ta):$(dn):ModelNumber")										{
+	field(PINI,	"YES")
+	field(SCAN,	"Passive")
+	field(DTYP,	"stream")
+	field(INP,	"@tdklambda-rs232.proto PSU-idn tdk232")								}
+
+# Software Version
+record(stringin, "$(bl):$(ta):$(dn):SWVersion")											{
+	field(PINI,	"YES")
+	field(SCAN,	"Passive")
+	field(DTYP,	"stream")
+	field(INP,	"@tdklambda-rs232.proto PSU-rev tdk232")								}
+
+# Serial Number
+record(stringin, "$(bl):$(ta):$(dn):SerialNumber")										{
+	field(PINI,	"YES")
+	field(SCAN,	"Passive")
+	field(DTYP,	"stream")
+	field(INP,	"@tdklambda-rs232.proto PSU-sn tdk232")									}
+
+# Test Date
+record(stringin, "$(bl):$(ta):$(dn):TestDate")											{
+	field(PINI,	"YES")
+	field(SCAN,	"Passive")
+	field(DTYP,	"stream")
+	field(INP,	"@tdklambda-rs232.proto PSU-date tdk232")								}
+
+
+###############
+# =============   Initialization Control PV's   =============
+###############
+# Identify the unit by Address number.  This will initiate communications specific to that unit.
+record (longout, "$(bl):$(ta):$(dn):Address")											{
+	field(SCAN,	"Passive")
+	field(DTYP,	"stream")
+	field(OUT,	"@tdklambda-rs232.proto PSU-adr tdk232")
+	info(archive, "Monitor, 00:01:00")
+	info(autosaveFields, "VAL")															}
+
+# Command to Clear the Status Register
+record (bo,  "$(bl):$(ta):$(dn):CLS")													{
+	field(PINI,	"YES")
+	field(HIGH,	"0.5")
+	field(SCAN,	"Passive")
+	field(DTYP,	"stream")
+	field(OUT,	"@tdklambda-rs232.proto PSU-add tdk232")								}
+
+# Command to Reset the device
+record (bo,  "$(bl):$(ta):$(dn):Reset")													{
+	field(PINI,	"YES")
+	field(HIGH,	"0.5")
+	field(SCAN,	"Passive")
+	field(DTYP,	"stream")
+	field(OUT,	"@tdklambda-rs232.proto PSU-reset tdk232")								}
+
+# Get the Operating Mode
+record (mbbi,  "$(bl):$(ta):$(dn):GetMode")												{
+	field(PINI,	"YES")
+	field(SCAN,	"10 second")
+	field(DTYP,	"stream")
+	field(ZRVL,	"0")
+	field(ZRST,	"Local")
+	field(ONVL,	"1")
+	field(ONST,	"Remote")
+	field(TWVL,	"2")
+	field(TWST,	"Local Lockout")
+	field(INP,	"@tdklambda-rs232.proto PSU-get.rmt tdk232")							}
+
+# Set the Operating Mode
+record (mbbo,  "$(bl):$(ta):$(dn):SetMode")												{
+	field(PINI,	"YES")
+	field(SCAN,	"Passive")
+	field(DTYP,	"stream")
+	field(ZRVL,	"0")
+	field(ZRST,	"Local")
+	field(ONVL,	"1")
+	field(ONST,	"Remote")
+	field(TWVL,	"2")
+	field(TWST,	"Local Lockout")
+	field(OUT,	"@tdklambda-rs232.proto PSU-set.rmt tdk232")
+	field(FLNK,	"$(bl):$(ta):$(dn):GetMode PP")											}
+
+

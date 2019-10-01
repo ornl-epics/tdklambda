@@ -1,0 +1,38 @@
+####  Macro Definitions  ####
+# (bl)	- Beam Line
+# (ta)	- Target Area
+# (dn)	- Device Name
+
+###############
+# =============   Fault Control PV's   =============
+###############
+# Process the Command Acknowledge response
+#record(calc,  "$(bl):$(ta):$(dn):CalcCommandACK")										{
+#	field(INPA
+
+# Get the Fault Condition Register Enable Bits
+record(mbbiDirect,  "$(bl):$(ta):$(dn):GetFENA")										{
+	field(PINI,	"YES")
+	field(DTYP,	"stream")
+	field(OUT,	"@tdklambda-rs232.proto PSU-set.fena tdk232")							}
+																						
+# Set the Fault Condition Register Enable Bits
+record(mbboDirect,  "$(bl):$(ta):$(dn):SetFENA")										{
+	field(PINI,	"YES")
+	field(DTYP,	"stream")
+	field(OUT,	"@tdklambda-rs232.proto PSU-set.fena tdk232")							}
+
+# Get Fault Conditions
+record(mbbiDirect,  "$(bl):$(ta):$(dn):GetFLT")											{
+	field(PINI,	"YES")
+	field(DTYP,	"stream")
+	field(OUT,	"@tdklambda-rs232.proto PSU-get.flt tdk232")							}
+
+
+###############
+# =============   Alarm Control PV's   =============
+###############
+
+
+
+
