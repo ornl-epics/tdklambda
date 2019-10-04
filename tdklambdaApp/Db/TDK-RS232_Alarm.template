@@ -14,7 +14,7 @@
 record(mbbiDirect,  "$(bl):$(ta):$(dn):GetFENA")										{
 	field(PINI,	"YES")
 	field(DTYP,	"stream")
-	field(OUT,	"@tdklambda-rs232.proto PSU-set.fena tdk232")							}
+	field(INP,	"@tdklambda-rs232.proto PSU-set.fena tdk232")							}
 																						
 # Set the Fault Condition Register Enable Bits
 record(mbboDirect,  "$(bl):$(ta):$(dn):SetFENA")										{
@@ -26,7 +26,7 @@ record(mbboDirect,  "$(bl):$(ta):$(dn):SetFENA")										{
 record(mbbiDirect,  "$(bl):$(ta):$(dn):GetFLT")											{
 	field(PINI,	"YES")
 	field(DTYP,	"stream")
-	field(OUT,	"@tdklambda-rs232.proto PSU-get.flt tdk232")							}
+	field(INP,	"@tdklambda-rs232.proto PSU-get.flt tdk232")							}
 
 
 ###############

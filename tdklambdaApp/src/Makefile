@@ -4,24 +4,26 @@ include $(TOP)/configure/CONFIG
 #----------------------------------------
 #  ADD MACRO DEFINITIONS AFTER THIS LINE
 
+
 #=============================
 # Build the IOC support library
+PROD_IOC = TDK-RS232
 
-LIBRARY_IOC += tdklambdaSupport
+# TDK-RS232.dbd will be created and installed
+DBD += TDK-RS232.dbd
 
-# tdklambda.dbd will be created and installed
-DBD += tdklambda.dbd
+# TDK-RS232.dbd will be made up from these files:
+TDK-RS232_DBD += base.dbd
 
-# tdklambda.dbd will be made up from these files:
-tdklambda_DBD += base.dbd
-tdklambda_DBD += asyn.dbd
-tdklambda_DBD += stream.dbd
+# TDK-RS232_registerRecordDeviceDriver.cpp derives from TDK-RS232.dbd
+TDK-RS232_SRCS += TDK-RS232_registerRecordDeviceDriver.cpp
 
 # Build the main IOC entry point on workstation OSs.
-tdklambda_SRCS += tdklambdaMain.cpp
+TDK-RS232_SRCS_DEFAULT += TDK-RS232Main.cpp
+TDK-RS232_SRCS_vxWorks += -nil-
 
 # Finally link to the EPICS Base libraries
-tdklambda_LIBS += $(EPICS_BASE_IOC_LIBS)
+TDK-RS232_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 #=============================
 

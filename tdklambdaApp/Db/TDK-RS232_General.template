@@ -52,7 +52,7 @@ record (bo,  "$(bl):$(ta):$(dn):CLS")													{
 	field(HIGH,	"0.5")
 	field(SCAN,	"Passive")
 	field(DTYP,	"stream")
-	field(OUT,	"@tdklambda-rs232.proto PSU-add tdk232")								}
+	field(OUT,	"@tdklambda-rs232.proto PSU-cls tdk232")								}
 
 # Command to Reset the device
 record (bo,  "$(bl):$(ta):$(dn):Reset")													{
@@ -86,7 +86,7 @@ record (mbbo,  "$(bl):$(ta):$(dn):SetMode")												{
 	field(ONST,	"Remote")
 	field(TWVL,	"2")
 	field(TWST,	"Local Lockout")
-	field(OUT,	"@tdklambda-rs232.proto PSU-set.rmt tdk232")
+	field(OUT,	"@tdklambda-rs232.proto PSU-set.rmt($(bl):$(ta):$(dn)) tdk232")
 	field(FLNK,	"$(bl):$(ta):$(dn):GetMode PP")											}
 
 

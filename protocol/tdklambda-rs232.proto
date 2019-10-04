@@ -119,28 +119,28 @@ PSU-get.out			{out "OUT?";			in "%{OFF|ON}";					}
 
 # Set the output state
 PSU-set.out			{out "OUT %{OUT OFF|OUT ON}";
-						in "%(\$1:CommandACK.VAL)";
-					 	@init {PSU-get.out;}: wait 100;						}
+						in "%(\$1:CommandACK.VAL)s";
+					 	@init {PSU-get.out;}; wait 100;						}
 
 # -----------
 # Get Foldback Status
-PSU-get-fld			{out "FLD?";			in "%{OFF|ON}";					}
+PSU-get.fld			{out "FLD?";			in "%{OFF|ON}";					}
 
 # Set the Foldback state
 PSU-set.fld			{out "FLB %{FOLD OFF|FOLD ON}";
 						in "%(\$1:CommandACK.VAL)s";
-					 	@init {PSU-get.fld;}: wait 100;						}
+					 	@init {PSU-get.fld;}; wait 100;						}
 
 # Get Foldback Delay
-PSU-get-fbd			{out "FBD?";			in "%d";						}
+PSU-get.fbd			{out "FBD?";			in "%d";						}
 
 # Set the Foldback Delay
-PSU-set.fbd			{out "FBD %d";			in "%(\$1:CommandACK.VAL)"s;
+PSU-set.fbd			{out "FBD %d";			in "%(\$1:CommandACK.VAL)s";
 					 	@init {PSU-get.fbd;}; wait 100;						}
 
 # Reset the Foldback Delay
 PSU-reset.fbd		{out "FBDRST";
-						in "%(\$1:CommandACK.VAL)"s;						}
+						in "%(\$1:CommandACK.VAL)s";						}
 
 # -----------
 # Get the Overvoltage
@@ -148,7 +148,7 @@ PSU-get.ovp			{out "OVP?";			in "%f";						}
 
 # Set the Overvoltage
 PSU-set.ovp			{out "OVP %f";			in "%(\$1:CommandACK.VAL)s";
-					 	@init {PSU-get.ovp;}: wait 100;						}
+					 	@init {PSU-get.ovp;}; wait 100;						}
 
 
 # -----------
@@ -157,7 +157,7 @@ PSU-get.uvl			{out "UVL?";			in "%f";						}
 
 # Set the Undervoltage
 PSU-set.uvl			{out "UVL %f";			in "%(\$1:CommandACK.VAL)s";
-					 	@init {PSU-init.uvl;}; wait 100;					}
+					 	@init {PSU-get.uvl;}; wait 100;					}
 
 
 # -----------
@@ -190,7 +190,7 @@ PSU-get.fena		{out "FENA?";			in "%i";						}
 
 # Set which Fault Condition Registers are Enabled
 PSU-set.fena		{out "FENA %i";
-						@init {PSU-get-FENA;}; wait 100;					}
+						@init {PSU-get.fena;}; wait 100;					}
 
 
 
