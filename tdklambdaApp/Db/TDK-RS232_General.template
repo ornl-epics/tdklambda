@@ -40,6 +40,8 @@ record(stringin, "$(bl):$(ta):$(dn):TestDate")											{
 ###############
 # Identify the unit by Address number.  This will initiate communications specific to that unit.
 record (longout, "$(bl):$(ta):$(dn):Address")											{
+	field(DOL,	"6")
+	field(PINI,	"YES")
 	field(SCAN,	"Passive")
 	field(DTYP,	"stream")
 	field(OUT,	"@tdklambda-rs232.proto PSU-adr tdk232")

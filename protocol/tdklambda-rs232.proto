@@ -2,7 +2,7 @@
 # TDKLambda Genesys RS-232 Interface stream device protocol file
 #
 
-OutTerminator = ";";
+#OutTerminator = ";";
 Terminator  = CR;
 LockTimeout   = 1000;
 ReplyTimeout  = 1000;
@@ -63,16 +63,16 @@ PSU-set.rmt			{out "RMT %{LOC|REM|LLO}";
 ##################
 
 # Identify the Units Model Number
-PSU-idn				{out "IDN?";			in "%s";						}
+PSU-idn				{out "IDN?";			in "%#s";						}
 
 # Get the Software Version
-PSU-rev				{out "REV?";			in "%s";						}
+PSU-rev				{out "REV?";			in "%#s";						}
 
 # Get the Serial Number
-PSU-sn				{out "SN?";				in "%s";						}
+PSU-sn				{out "SN?";				in "%#s";						}
 
 # Get the Test Date
-PSU-date			{out "DATE?";			in "%s";						}
+PSU-date			{out "DATE?";			in "%#s";						}
 
 
 
@@ -109,7 +109,7 @@ PSU-set.c			{out "PC %f";			in "%(\$1:CommandACK.VAL)s";
 PSU-get.fltr		{out "FILTER?";			in "%{18|23|48}";				}
 
 # Set the Filter
-PSU-set.fltr		{out "FILTER %{18|23|48}";
+PSU-set.fltr		{out "FILTER %{ 18| 23| 48}";
 						in "%(\$1:CommandACK.VAL)s";
 					 	@init {PSU-get.fltr;}; wait 100;					}
 
@@ -118,7 +118,7 @@ PSU-set.fltr		{out "FILTER %{18|23|48}";
 PSU-get.out			{out "OUT?";			in "%{OFF|ON}";					}
 
 # Set the output state
-PSU-set.out			{out "OUT %{OUT OFF|OUT ON}";
+PSU-set.out			{out "OUT %{ 0| 1}";
 						in "%(\$1:CommandACK.VAL)s";
 					 	@init {PSU-get.out;}; wait 100;						}
 
@@ -127,7 +127,7 @@ PSU-set.out			{out "OUT %{OUT OFF|OUT ON}";
 PSU-get.fld			{out "FLD?";			in "%{OFF|ON}";					}
 
 # Set the Foldback state
-PSU-set.fld			{out "FLB %{FOLD OFF|FOLD ON}";
+PSU-set.fld			{out "FLD %{ 0| 1}";
 						in "%(\$1:CommandACK.VAL)s";
 					 	@init {PSU-get.fld;}; wait 100;						}
 
@@ -165,7 +165,7 @@ PSU-set.uvl			{out "UVL %f";			in "%(\$1:CommandACK.VAL)s";
 PSU-get.ast			{out "AST?";			in "%{OFF|ON}";					}
 
 # Set the Auto-Restart Mode
-PSU-set.ast			{out "AST %{AST OFF|AST ON}";
+PSU-set.ast			{out "AST %{ 0| 1}";
 						in "%(\$1:CommandACK.VAL)s";
 					 	@init {PSU-get.ast;}; wait 100;						}
 
