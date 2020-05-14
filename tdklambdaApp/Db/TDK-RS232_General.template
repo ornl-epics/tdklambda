@@ -7,67 +7,86 @@
 # =============   Identification Control PV's   =============
 ###############
 # Get IDN
-record(stringin, "$(bl):$(ta):$(dn):ModelNumber")										{
-	field(PINI,	"YES")
+record(stringin, "$(bl):$(ta):$(dn):ModelNumber")
+{
+	field(DESC,	"Read Unit Model Number")
 	field(SCAN,	"Passive")
 	field(DTYP,	"stream")
-	field(INP,	"@tdklambda-rs232.proto PSU-idn tdk232")								}
+	field(INP,	"@tdklambda-rs232.proto PSU-idn tdk232")
+}
 
 # Software Version
-record(stringin, "$(bl):$(ta):$(dn):SWVersion")											{
-	field(PINI,	"YES")
+record(stringin, "$(bl):$(ta):$(dn):SWVersion")
+{
+	field(DESC,	"Read Software Version")
 	field(SCAN,	"Passive")
 	field(DTYP,	"stream")
-	field(INP,	"@tdklambda-rs232.proto PSU-rev tdk232")								}
+	field(INP,	"@tdklambda-rs232.proto PSU-rev tdk232")
+}
 
 # Serial Number
-record(stringin, "$(bl):$(ta):$(dn):SerialNumber")										{
-	field(PINI,	"YES")
+record(stringin, "$(bl):$(ta):$(dn):SerialNumber")
+{
+	field(DESC,	"Read Unit Serial Number")
 	field(SCAN,	"Passive")
 	field(DTYP,	"stream")
-	field(INP,	"@tdklambda-rs232.proto PSU-sn tdk232")									}
+	field(INP,	"@tdklambda-rs232.proto PSU-sn tdk232")
+}
 
 # Test Date
-record(stringin, "$(bl):$(ta):$(dn):TestDate")											{
-	field(PINI,	"YES")
+record(stringin, "$(bl):$(ta):$(dn):TestDate")
+{
+	field(DESC,	"Read Last Calibration Date")
 	field(SCAN,	"Passive")
 	field(DTYP,	"stream")
-	field(INP,	"@tdklambda-rs232.proto PSU-date tdk232")								}
+	field(INP,	"@tdklambda-rs232.proto PSU-date tdk232")
+}
 
 
 ###############
 # =============   Initialization Control PV's   =============
 ###############
 # Identify the unit by Address number.  This will initiate communications specific to that unit.
-record (longout, "$(bl):$(ta):$(dn):Address")											{
-	field(DOL,	"6")
+# Default is 06.
+record (longout, "$(bl):$(ta):$(dn):Address")
+{
+	field(DESC,	"Address of power supply")
 	field(PINI,	"YES")
-	field(SCAN,	"Passive")
+	field(VAL,	"06")
 	field(DTYP,	"stream")
-	field(OUT,	"@tdklambda-rs232.proto PSU-adr tdk232")
+	field(OUT,	"@tdklambda-rs232.proto PSU-adr($(bl):$(ta):$(dn)) tdk232")
 	info(archive, "Monitor, 00:01:00")
-	info(autosaveFields, "VAL")															}
+	info(autosaveFields, "VAL")
+}
 
 # Command to Clear the Status Register
-record (bo,  "$(bl):$(ta):$(dn):CLS")													{
+record (bo,  "$(bl):$(ta):$(dn):CLS")
+{
+	field(DESC,	"Reset Status Register")
 	field(PINI,	"YES")
 	field(HIGH,	"0.5")
 	field(SCAN,	"Passive")
 	field(DTYP,	"stream")
-	field(OUT,	"@tdklambda-rs232.proto PSU-cls tdk232")								}
+	field(OUT,	"@tdklambda-rs232.proto PSU-cls($(bl):$(ta):$(dn)) tdk232")
+}
 
 # Command to Reset the device
-record (bo,  "$(bl):$(ta):$(dn):Reset")													{
+record (bo,  "$(bl):$(ta):$(dn):Reset")
+{
+	field(DESC,	"Reset PS to Defaults")
 	field(PINI,	"YES")
 	field(HIGH,	"0.5")
 	field(SCAN,	"Passive")
 	field(DTYP,	"stream")
-	field(OUT,	"@tdklambda-rs232.proto PSU-reset tdk232")								}
+	field(OUT,	"@tdklambda-rs232.proto PSU-reset($(bl):$(ta):$(dn)) tdk232")
+}
 
 # Get the Operating Mode
-record (mbbi,  "$(bl):$(ta):$(dn):GetMode")												{
+record (mbbi,  "$(bl):$(ta):$(dn):GetMode")
+{
+	field(DESC,	"Read PS Mode")
+	field(SCAN,	"2 second")
 	field(PINI,	"YES")
-	field(SCAN,	"10 second")
 	field(DTYP,	"stream")
 	field(ZRVL,	"0")
 	field(ZRST,	"Local")
@@ -75,11 +94,13 @@ record (mbbi,  "$(bl):$(ta):$(dn):GetMode")												{
 	field(ONST,	"Remote")
 	field(TWVL,	"2")
 	field(TWST,	"Local Lockout")
-	field(INP,	"@tdklambda-rs232.proto PSU-get.rmt tdk232")							}
+	field(INP,	"@tdklambda-rs232.proto PSU-get.rmt tdk232")
+}
 
 # Set the Operating Mode
-record (mbbo,  "$(bl):$(ta):$(dn):SetMode")												{
-	field(PINI,	"YES")
+record (mbbo,  "$(bl):$(ta):$(dn):SetMode")
+{
+	field(DESC,	"Set PS Mode, Rem/Loc")
 	field(SCAN,	"Passive")
 	field(DTYP,	"stream")
 	field(ZRVL,	"0")
@@ -89,6 +110,7 @@ record (mbbo,  "$(bl):$(ta):$(dn):SetMode")												{
 	field(TWVL,	"2")
 	field(TWST,	"Local Lockout")
 	field(OUT,	"@tdklambda-rs232.proto PSU-set.rmt($(bl):$(ta):$(dn)) tdk232")
-	field(FLNK,	"$(bl):$(ta):$(dn):GetMode PP")											}
-
+	info(archive,   "Monitor, 00:01:00, VAL")
+	info(autosaveFields, "VAL")
+}
 

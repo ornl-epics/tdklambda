@@ -3,36 +3,181 @@
 # (ta)	- Target Area
 # (dn)	- Device Name
 
+# 
+# Refer to page 91 in Genesys 10kW/15kW manual (83532002 Rev C) for a complete 
+# description of the status and fault bits.
+#
 ###############
 # =============   Fault Control PV's   =============
 ###############
-# Process the Command Acknowledge response
-#record(calc,  "$(bl):$(ta):$(dn):CalcCommandACK")										{
-#	field(INPA
 
-# Get the Fault Condition Register Enable Bits
-record(mbbiDirect,  "$(bl):$(ta):$(dn):GetFENA")										{
-	field(PINI,	"YES")
+# Read the fault monitor register bits
+record(mbbiDirect,  "$(bl):$(ta):$(dn):GetFENA")
+{
+	field(DESC,	"Fault Monitor Reg Read")
+	field(SCAN,	"2 second")
 	field(DTYP,	"stream")
-	field(INP,	"@tdklambda-rs232.proto PSU-set.fena tdk232")							}
-																						
-# Set the Fault Condition Register Enable Bits
-record(mbboDirect,  "$(bl):$(ta):$(dn):SetFENA")										{
-	field(PINI,	"YES")
-	field(DTYP,	"stream")
-	field(OUT,	"@tdklambda-rs232.proto PSU-set.fena tdk232")							}
+	field(INP,	"@tdklambda-rs232.proto PSU-get.fena tdk232")
+}
 
-# Get Fault Conditions
-record(mbbiDirect,  "$(bl):$(ta):$(dn):GetFLT")											{
-	field(PINI,	"YES")
+# Set the fault monitor register tracking bits
+record(mbboDirect,  "$(bl):$(ta):$(dn):SetFENA")
+{
+	field(DESC,	"Fault Monitor Reg Set")
 	field(DTYP,	"stream")
-	field(INP,	"@tdklambda-rs232.proto PSU-get.flt tdk232")							}
+	field(OUT,	"@tdklambda-rs232.proto PSU-set.fena($(bl):$(ta):$(dn)) tdk232")
+	info(archive,   "Monitor, 00:01:00, VAL")
+	info(autosaveFields, "VAL")
+}
 
+# Read the fault register
+record(mbbiDirect,  "$(bl):$(ta):$(dn):GetFLT")
+{
+	field(DESC,	"Read Fault Register")
+	field(SCAN,	"2 second")
+	field(DTYP,	"stream")
+	field(INP,	"@tdklambda-rs232.proto PSU-get.flt tdk232")
+}
+
+# Bit 1 is the tri-state status of the AC Fault detection
+record(calc, "$(bl):$(ta):$(dn):ACFault")
+{
+	field(DESC,	"AC Fault Status")
+	field(PINI,	"YES")
+	field(INPA,	"$(bl):$(ta):$(dn):GetFENA.B1 CP")
+	field(INPB,	"$(bl):$(ta):$(dn):GetFLT.B1 CP")
+	field(CALC,	"A?B:2") # 2=fault is being ignored in hardware
+}
+
+# Bit 2 is the tri-state status of the over temperature detection
+record(calc, "$(bl):$(ta):$(dn):OTFault")
+{
+	field(DESC,	"Over Temp Fault Status")
+	field(PINI,	"YES")
+	field(INPA,	"$(bl):$(ta):$(dn):GetFENA.B2 CP")
+	field(INPB,	"$(bl):$(ta):$(dn):GetFLT.B2 CP")
+	field(CALC,	"A?B:2") # 2=fault is being ignored in hardware
+}
+
+# Bit 3 is the tri-state status of the foldback fault detection
+record(calc, "$(bl):$(ta):$(dn):FBFault")
+{
+	field(DESC,	"Foldback Fault Status")
+	field(PINI,	"YES")
+	field(INPA,	"$(bl):$(ta):$(dn):GetFENA.B3 CP")
+	field(INPB,	"$(bl):$(ta):$(dn):GetFLT.B3 CP")
+	field(CALC,	"A?B:2") # 2=fault is being ignored in hardware
+}
+
+# Bit 4 is the tri-state status of the over voltage fault detection
+record(calc, "$(bl):$(ta):$(dn):OVFault")
+{
+	field(DESC,	"Over Temp Fault Status")
+	field(PINI,	"YES")
+	field(INPA,	"$(bl):$(ta):$(dn):GetFENA.B4 CP")
+	field(INPB,	"$(bl):$(ta):$(dn):GetFLT.B4 CP")
+	field(CALC,	"A?B:2") # 2=fault is being ignored in hardware
+}
+
+# Bit 5 is the tri-state status of the J1 (rear panel) shut off detection
+record(calc, "$(bl):$(ta):$(dn):J1Off")
+{
+	field(DESC,	"J1 Shut Off Status")
+	field(PINI,	"YES")
+	field(INPA,	"$(bl):$(ta):$(dn):GetFENA.B5 CP")
+	field(INPB,	"$(bl):$(ta):$(dn):GetFLT.B5 CP")
+	field(CALC,	"A?B:2") # 2=fault is being ignored in hardware
+}
+
+# Bit 6 is the tri-state status of the front panel output enable detection
+record(calc, "$(bl):$(ta):$(dn):FPOff")
+{
+	field(DESC,	"Front Panel Output Status")
+	field(PINI,	"YES")
+	field(INPA,	"$(bl):$(ta):$(dn):GetFENA.B6 CP")
+	field(INPB,	"$(bl):$(ta):$(dn):GetFLT.B6 CP")
+	field(CALC,	"A?B:2") # 2=fault is being ignored in hardware
+}
+
+# Bit 7 is the tri-state status of the rear panel (J1) output enable detection
+record(calc, "$(bl):$(ta):$(dn):J1Enable")
+{
+	field(DESC,	"J1 Out Enable Monitor")
+	field(PINI,	"YES")
+	field(INPA,	"$(bl):$(ta):$(dn):GetFENA.B7 CP")
+	field(INPB,	"$(bl):$(ta):$(dn):GetFLT.B7 CP")
+	field(CALC,	"A?B:2") # 2=fault is being ignored in hardware
+}
 
 ###############
 # =============   Alarm Control PV's   =============
 ###############
 
+# Read the status monitor register bits 
+record(mbbiDirect,  "$(bl):$(ta):$(dn):GetSTAT")
+{
+	field(DESC,	"Status Monitor Read Reg")
+	field(SCAN,	"1 second")
+	field(DTYP,	"stream")
+	field(INP,	"@tdklambda-rs232.proto PSU-get.stat tdk232")
+}
 
+# Set the status monitor register bits
+record(mbboDirect,  "$(bl):$(ta):$(dn):SetSTAT")
+{
+	field(DESC,	"Status Monitor Set Reg")
+	field(DTYP,	"stream")
+	field(OUT,	"@tdklambda-rs232.proto PSU-set.stat($(bl):$(ta):$(dn)) tdk232")
+	info(archive,   "Monitor, 00:01:00, VAL")
+	info(autosaveFields, "VAL")
+}
 
+# Read the status register 
+record(mbbiDirect,  "$(bl):$(ta):$(dn):STATUS")
+{
+	field(DESC,	"Read Status Register")
+	field(SCAN,	"2 second")
+	field(DTYP,	"stream")
+	field(INP,	"@tdklambda-rs232.proto PSU-get.status tdk232")
+}
+
+# Bit 0 is the tri-state status of the constant voltage
+record(calc, "$(bl):$(ta):$(dn):ConstVolt")
+{
+	field(DESC,	"Constant Voltage Status")
+	field(PINI,	"YES")
+	field(INPA,	"$(bl):$(ta):$(dn):GetSTAT.B0 CP")
+	field(INPB,	"$(bl):$(ta):$(dn):STATUS.B0 CP")
+	field(CALC,	"A?B:2") # 2=status is ignored in hardware
+}
+
+# Bit 1 is the tri-state status of the constant current
+record(calc, "$(bl):$(ta):$(dn):ConstCur")
+{
+	field(DESC,	"Constant Current Status")
+	field(PINI,	"YES")
+	field(INPA,	"$(bl):$(ta):$(dn):GetSTAT.B1 CP")
+	field(INPB,	"$(bl):$(ta):$(dn):STATUS.B1 CP")
+	field(CALC,	"A?B:2") # 2=status is ignored in hardware
+}
+
+# Bit 3 is the tri-state status of the fault monitor detection
+record(calc, "$(bl):$(ta):$(dn):MonFault")
+{
+	field(DESC,	"Fault Status")
+	field(PINI,	"YES")
+	field(INPA,	"$(bl):$(ta):$(dn):GetSTAT.B3 CP")
+	field(INPB,	"$(bl):$(ta):$(dn):STATUS.B3 CP")
+	field(CALC,	"A?B:2") # 2=status is ignored in hardware
+}
+
+# Bit 7 is the tri-state status of mode selection
+record(calc, "$(bl):$(ta):$(dn):ModeSel")
+{
+	field(DESC,	"Mode Selection Status")
+	field(PINI,	"YES")
+	field(INPA,	"$(bl):$(ta):$(dn):GetSTAT.B7 CP")
+	field(INPB,	"$(bl):$(ta):$(dn):STATUS.B7 CP")
+	field(CALC,	"A?B>0:2") # 2=status is ignored in hardware
+}
 

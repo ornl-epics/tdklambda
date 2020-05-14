@@ -2,7 +2,6 @@
 # TDKLambda Genesys RS-232 Interface stream device protocol file
 #
 
-#OutTerminator = ";";
 Terminator  = CR;
 LockTimeout   = 1000;
 ReplyTimeout  = 1000;
@@ -22,13 +21,15 @@ WriteTimeout  = 1000;
 
 debug {
     ExtraInput = Ignore;
-    out "%s"; in "%39c"}
+    out "%s";
+    in "%39c";
+}
 
 # Connect a stringout record to this to get a generic command interface.
 # After processing finishes, the record contains the reply.
 
-PSU-set			{out "%s"; 					in "%(\$1:CommandACK.VAL)s";	}
-PSU-get			{out "%s"; ExtraInput = Ignore; in "%39c";					}
+#PSU-set	{out "%s"; in "%(\$1:CommandACK.VAL)s";}
+#PSU-get	{out "%s"; ExtraInput = Ignore; in "%39c";}
 
 
 ##################
@@ -40,41 +41,76 @@ PSU-get			{out "%s"; ExtraInput = Ignore; in "%39c";					}
 ########  Test the IOC to determine if I need to add these back into this protocol file.
 ########
 
-# Define the Address of the Unit to initiate communications
-PSU-adr				{out "ADR %d";											}
+# Define the Address of the Unit to initiate communications - this must run first
+PSU-adr	{
+    out "ADR %02d";
+    wait 100;
+    in "%(\$1:CommandACK.VAL)s";
+    @init {
+        out "ADR %02d";
+        wait 100;
+        in "%(\$1:CommandACK.VAL)s";
+    };
+}
 
 # Clear the status registers
-PSU-cls				{out "*CLS";											}
+PSU-cls {
+    out "CLS";
+    in "%(\$1:CommandACK.VAL)s";
+}
 
 # Send a Reset to the unit
-PSU-reset			{out "*RST";											}
+PSU-reset {
+    out "RST";
+    in "%(\$1:CommandACK.VAL)s";
+}
 
-#??? Get the Operating Mode
-PSU-get.rmt			{out "RMT?";			in "%{LOC|REM|LLO}";			}
+# Get the Operating Mode: remote, local or local lockout
+PSU-get.rmt {
+    out "RMT?";
+    wait 50;
+    in "%{LOC|REM|LLO}";
+}
 
-#??? Set the unit to local or remote mode
-PSU-set.rmt			{out "RMT %{LOC|REM|LLO}";
-						in "%(\$1:CommandACK.VAL)s";						}
-
-
+# Set the unit to local, remote or local lockout mode
+PSU-set.rmt {
+    out "RMT %{LOC|REM|LLO}";
+    wait 50;
+    in "%(\$1:CommandACK.VAL)s";
+    @init {PSU-get.rmt;};
+}
 
 ##################
 #####################    Identitification Control
 ##################
 
 # Identify the Units Model Number
-PSU-idn				{out "IDN?";			in "%#s";						}
+PSU-idn
+{
+    out "IDN?";
+    @init{ out "IDN?"; in "%s"; };
+}
 
 # Get the Software Version
-PSU-rev				{out "REV?";			in "%#s";						}
+PSU-rev
+{
+    out "REV?";
+    @init{ out "REV?"; in "%s"; };
+}
 
 # Get the Serial Number
-PSU-sn				{out "SN?";				in "%#s";						}
+PSU-sn
+{
+    out "SN?";
+    @init{ out "SN?"; in "%s"; };
+}
 
-# Get the Test Date
-PSU-date			{out "DATE?";			in "%#s";						}
-
-
+# Get the last time the system was calibrated
+PSU-date
+{
+    out "DATE?";
+    @init{ out "DATE?"; in "%s"; };
+}
 
 ##################
 #####################    Output Control
@@ -84,118 +120,232 @@ PSU-date			{out "DATE?";			in "%#s";						}
 ###  Get/Set commands are constructed to be general.
 
 # Get the Voltage value (SV) from the unit
-PSU-get.v			{out "PV?";				in "%f";						}
+PSU-get.v
+{
+    out "PV?";
+    wait 50;
+    in "%f";
+}
 
 # Get the measured (actual) Voltage
-PSU-meas.v			{out "MV?";				in "%f";						}
+PSU-meas.v
+{
+    out "MV?";
+    wait 50;
+    in "%f";
+}
 
-# Set the Voltage
-PSU-set.v			{out "PV %f";			in "%(\$1:CommandACK.VAL)s";
-					 	@init {PSU-get.v;}; wait 100;						}
+# Set the Voltage - load response time is ~100mS
+PSU-set.v
+{
+    out "PV %f";
+    wait 100;
+    in "%(\$1:CommandACK.VAL)s";
+    @init {PSU-get.v;};
+}
 
 # -----------
 # Get the Current value (SV) from the unit
-PSU-get.c			{out "PC?";				in "%f";						}
+PSU-get.c
+{
+    out "PC?";
+    wait 50;
+    in "%f";
+}
 
 # Get the measured (actual) Current
-PSU-meas.c			{out "MC?";				in "%f";						}
+PSU-meas.c
+{
+    out "MC?";
+    wait 50;
+    in "%f";
+}
 
-# Set the current
-PSU-set.c			{out "PC %f";			in "%(\$1:CommandACK.VAL)s";		
-					 	@init {PSU-get.c;}; wait 100;						}
-
-# -----------
-# Get the Filter value
-PSU-get.fltr		{out "FILTER?";			in "%{18|23|48}";				}
-
-# Set the Filter
-PSU-set.fltr		{out "FILTER %{ 18| 23| 48}";
-						in "%(\$1:CommandACK.VAL)s";
-					 	@init {PSU-get.fltr;}; wait 100;					}
+# Set the current - loaded response time is ~100mS
+PSU-set.c
+{
+    out "PC %f";
+    wait 100;
+    in "%(\$1:CommandACK.VAL)s";
+    @init {PSU-get.c;};
+}
 
 # -----------
 # Get the output status
-PSU-get.out			{out "OUT?";			in "%{OFF|ON}";					}
+PSU-get.out {
+    out "OUT?";
+    wait 100;
+    in "%{OFF|ON}";
+}
 
 # Set the output state
-PSU-set.out			{out "OUT %{ 0| 1}";
-						in "%(\$1:CommandACK.VAL)s";
-					 	@init {PSU-get.out;}; wait 100;						}
+PSU-set.out
+{
+    out "OUT %{0|1}";
+    wait 100;
+    in "%(\$1:CommandACK.VAL)s";
+    @init {PSU-get.out;};
+}
+
+# -----------
+# Get the Filter value
+PSU-get.fltr
+{
+    out "FILTER?";
+    wait 10;
+    in "%{18|23|46}";
+}
+
+# Set the Filter
+PSU-set.fltr
+{
+    out "FILTER %{18|23|46}";
+    wait 800; # This command takes a long time to complete
+    in "%(\$1:CommandACK.VAL)s";
+    @init { PSU-get.fltr; }; 
+}
 
 # -----------
 # Get Foldback Status
-PSU-get.fld			{out "FLD?";			in "%{OFF|ON}";					}
+PSU-get.fld
+{
+    out "FLD?";
+    wait 10;
+    in "%{OFF|ON}";
+}
 
 # Set the Foldback state
-PSU-set.fld			{out "FLD %{ 0| 1}";
-						in "%(\$1:CommandACK.VAL)s";
-					 	@init {PSU-get.fld;}; wait 100;						}
+PSU-set.fld
+{
+    out "FLD %{ 0| 1}";
+    wait 10;
+    in "%(\$1:CommandACK.VAL)s";
+    @init {PSU-get.fld;};
+}
 
 # Get Foldback Delay
-PSU-get.fbd			{out "FBD?";			in "%d";						}
+PSU-get.fbd
+{
+    out "FBD?";
+    wait 10;
+    in "%d";
+}
 
 # Set the Foldback Delay
-PSU-set.fbd			{out "FBD %d";			in "%(\$1:CommandACK.VAL)s";
-					 	@init {PSU-get.fbd;}; wait 100;						}
+PSU-set.fbd
+{
+    out "FBD %d";
+    wait 10;
+    in "%(\$1:CommandACK.VAL)s";
+    @init {PSU-get.fbd;};
+}
 
 # Reset the Foldback Delay
-PSU-reset.fbd		{out "FBDRST";
-						in "%(\$1:CommandACK.VAL)s";						}
+PSU-reset.fbd {
+    out "FBDRST";
+    wait 10;
+    in "%(\$1:CommandACK.VAL)s";
+    @init {PSU-get.fld;};
+}
 
 # -----------
 # Get the Overvoltage
-PSU-get.ovp			{out "OVP?";			in "%f";						}
+PSU-get.ovp {
+    out "OVP?";
+    wait 10;
+    in "%f";
+}
 
 # Set the Overvoltage
-PSU-set.ovp			{out "OVP %f";			in "%(\$1:CommandACK.VAL)s";
-					 	@init {PSU-get.ovp;}; wait 100;						}
-
+PSU-set.ovp {
+    out "OVP %f";
+    wait 20;
+    in "%(\$1:CommandACK.VAL)s";
+}
 
 # -----------
 # Get the Undervoltage
-PSU-get.uvl			{out "UVL?";			in "%f";						}
+PSU-get.uvl {
+    out "UVL?";
+    wait 10;
+    in "%f";
+}
 
 # Set the Undervoltage
-PSU-set.uvl			{out "UVL %f";			in "%(\$1:CommandACK.VAL)s";
-					 	@init {PSU-get.uvl;}; wait 100;					}
+PSU-set.uvl {
+    out "UVL %f";
+    wait 10;
+    in "%(\$1:CommandACK.VAL)s";
+}
 
 
 # -----------
 # Get the Auto-Restart Mode
-PSU-get.ast			{out "AST?";			in "%{OFF|ON}";					}
+PSU-get.ast {
+    out "AST?";
+    wait 10;
+    in "%{OFF|ON}";
+}
 
 # Set the Auto-Restart Mode
-PSU-set.ast			{out "AST %{ 0| 1}";
-						in "%(\$1:CommandACK.VAL)s";
-					 	@init {PSU-get.ast;}; wait 100;						}
+PSU-set.ast {
+    out "AST %{0|1}";
+    wait 10;
+    in "%(\$1:CommandACK.VAL)s";
+    @init {PSU-get.ast;};
+}
 
 
 # -----------
 # Get the Operation Mode
-PSU-get.mode		{out "MODE?";			in "%s";						}
-
-
-
-
+PSU-get.mode {
+    out "MODE?";
+    wait 10;
+    in "%s";
+}
 
 ##################
 #####################    Fault Conditions
 ##################
 
 # Get the Fault Condition Register Values
-PSU-get.flt			{out "FLT?";			in "%i";						}
+PSU-get.flt {
+    out "FLT?";
+    wait 10;
+    in "%u";
+}
 
 # Get which Fault Condition Registers are Enabled
-PSU-get.fena		{out "FENA?";			in "%i";						}
+PSU-get.fena {
+    out "FENA?";
+    wait 10;
+    in "%X";
+}
 
 # Set which Fault Condition Registers are Enabled
-PSU-set.fena		{out "FENA %i";
-						@init {PSU-get.fena;}; wait 100;					}
+PSU-set.fena {
+    out "FENA %02X";
+    in "%(\$1:CommandACK.VAL)s";
+    @init {PSU-get.fena;};
+}
 
+# Get the Status Register Values
+PSU-get.status {
+    out "STAT?";
+    wait 10;
+    in "%u";
+}
 
+# Get Status Register Bits Enabled
+PSU-get.stat {
+    out "SENA?";
+    wait 10;
+    in "%X";
+}
 
-
-
-
-
-
+# Enable the Fault Condition Registers
+PSU-set.stat {
+    out "SENA %02X";
+    in "%(\$1:CommandACK.VAL)s";
+    @init {PSU-get.stat;};
+}
