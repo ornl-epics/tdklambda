@@ -51,6 +51,7 @@ record(stringin, "$(bl):$(ta):$(dn):TestDate")
 record (longout, "$(bl):$(ta):$(dn):Address")
 {
 	field(DESC,	"Address of power supply")
+	field(ASG,	"BEAMLINE")
 	field(PINI,	"YES")
 	field(VAL,	"06")
 	field(DTYP,	"stream")

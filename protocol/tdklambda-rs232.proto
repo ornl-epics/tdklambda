@@ -8,16 +8,6 @@ ReplyTimeout  = 1000;
 WriteTimeout  = 1000;
 
 # TDK-Lambda Genesys 10KW/15KW Programmable DC Power Supply
-# Default settings based upon the RST command less any autosave records
-#	Output Voltage: tbd 0
-#	Output Current: tbd 0
-#	Output: Off
-#	Foldback: Off
-#	Remote: Non-lockout remote
-#	OVP: tbd Maximum
-#	UVL: tbd 0
-#	Startup Mode: Safe Start
-
 
 debug {
     ExtraInput = Ignore;
@@ -25,30 +15,18 @@ debug {
     in "%39c";
 }
 
-# Connect a stringout record to this to get a generic command interface.
-# After processing finishes, the record contains the reply.
-
-#PSU-set	{out "%s"; in "%(\$1:CommandACK.VAL)s";}
-#PSU-get	{out "%s"; ExtraInput = Ignore; in "%39c";}
-
-
 ##################
 #####################    Inititialization Control
 ##################
 
-########
-########  I had the PSU.init.(PV) added in order to set the control PV to the value of the PS.
-########  Test the IOC to determine if I need to add these back into this protocol file.
-########
-
 # Define the Address of the Unit to initiate communications - this must run first
 PSU-adr	{
     out "ADR %02d";
-    wait 100;
+    wait 10;
     in "%(\$1:CommandACK.VAL)s";
     @init {
         out "ADR %02d";
-        wait 100;
+        wait 10;
         in "%(\$1:CommandACK.VAL)s";
     };
 }
@@ -68,47 +46,47 @@ PSU-reset {
 # Get the Operating Mode: remote, local or local lockout
 PSU-get.rmt {
     out "RMT?";
-    wait 50;
+    wait 10;
     in "%{LOC|REM|LLO}";
 }
 
 # Set the unit to local, remote or local lockout mode
 PSU-set.rmt {
     out "RMT %{LOC|REM|LLO}";
-    wait 50;
+    wait 10;
     in "%(\$1:CommandACK.VAL)s";
     @init {PSU-get.rmt;};
 }
 
 ##################
-#####################    Identitification Control
+##################### Identitification Control
 ##################
+
+#
+# These 4 commands only run once during startup
+#
 
 # Identify the Units Model Number
 PSU-idn
 {
-    out "IDN?";
     @init{ out "IDN?"; in "%s"; };
 }
 
 # Get the Software Version
 PSU-rev
 {
-    out "REV?";
     @init{ out "REV?"; in "%s"; };
 }
 
 # Get the Serial Number
 PSU-sn
 {
-    out "SN?";
     @init{ out "SN?"; in "%s"; };
 }
 
 # Get the last time the system was calibrated
 PSU-date
 {
-    out "DATE?";
     @init{ out "DATE?"; in "%s"; };
 }
 
@@ -116,14 +94,11 @@ PSU-date
 #####################    Output Control
 ##################
 
-###  Get/Set commands will be place in order of Get then Set for any initialization (@init) purposes.
-###  Get/Set commands are constructed to be general.
-
 # Get the Voltage value (SV) from the unit
 PSU-get.v
 {
     out "PV?";
-    wait 50;
+    wait 10;
     in "%f";
 }
 
@@ -131,7 +106,7 @@ PSU-get.v
 PSU-meas.v
 {
     out "MV?";
-    wait 50;
+    wait 10;
     in "%f";
 }
 
@@ -139,7 +114,7 @@ PSU-meas.v
 PSU-set.v
 {
     out "PV %f";
-    wait 100;
+    wait 10;
     in "%(\$1:CommandACK.VAL)s";
     @init {PSU-get.v;};
 }
@@ -149,7 +124,7 @@ PSU-set.v
 PSU-get.c
 {
     out "PC?";
-    wait 50;
+    wait 10;
     in "%f";
 }
 
@@ -157,7 +132,7 @@ PSU-get.c
 PSU-meas.c
 {
     out "MC?";
-    wait 50;
+    wait 10;
     in "%f";
 }
 
@@ -165,7 +140,7 @@ PSU-meas.c
 PSU-set.c
 {
     out "PC %f";
-    wait 100;
+    wait 10;
     in "%(\$1:CommandACK.VAL)s";
     @init {PSU-get.c;};
 }
@@ -174,7 +149,7 @@ PSU-set.c
 # Get the output status
 PSU-get.out {
     out "OUT?";
-    wait 100;
+    wait 10;
     in "%{OFF|ON}";
 }
 
@@ -182,7 +157,7 @@ PSU-get.out {
 PSU-set.out
 {
     out "OUT %{0|1}";
-    wait 100;
+    wait 10;
     in "%(\$1:CommandACK.VAL)s";
     @init {PSU-get.out;};
 }
