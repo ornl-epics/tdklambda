@@ -10,7 +10,6 @@ include $(TOP)/configure/CONFIG
 #----------------------------------------------------
 # Create and install (or just install)
 # databases, templates, substitutions like this
-#DB += tdklambda.template
 DB += TDK-RS232_Alarm.template
 DB += TDK-RS232_Control.template
 DB += TDK-RS232_General.template
