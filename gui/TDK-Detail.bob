@@ -1,0 +1,1752 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>TDKLambda Power Supply</name>
+  <width>1000</width>
+  <height>1000</height>
+  <widget type="label" version="2.0.0">
+    <name>Title</name>
+    <text>TDK-Lambda Genesys Power Supply</text>
+    <x>250</x>
+    <y>11</y>
+    <width>500</width>
+    <height>30</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="22.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Power Supply Information</name>
+    <x>10</x>
+    <y>50</y>
+    <width>420</width>
+    <height>150</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="16.0">
+      </font>
+    </font>
+    <widget type="label" version="2.0.0">
+      <name>IDN Label</name>
+      <text>Model:</text>
+      <y>10</y>
+      <width>120</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>IDN</name>
+      <pv_name>$(S)ModelNumber</pv_name>
+      <x>130</x>
+      <y>10</y>
+      <width>200</width>
+      <height>22</height>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Rev Label</name>
+      <text>Firmware Version:</text>
+      <y>35</y>
+      <width>120</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Rev</name>
+      <pv_name>$(S)SWVersion</pv_name>
+      <x>130</x>
+      <y>35</y>
+      <width>200</width>
+      <height>22</height>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>SN Label</name>
+      <text>Serial Number:</text>
+      <y>60</y>
+      <width>120</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>SN</name>
+      <pv_name>$(S)SerialNumber</pv_name>
+      <x>130</x>
+      <y>60</y>
+      <width>200</width>
+      <height>22</height>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Date Label</name>
+      <text>Test Date:</text>
+      <y>85</y>
+      <width>120</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Date</name>
+      <pv_name>$(S)TestDate</pv_name>
+      <x>130</x>
+      <y>85</y>
+      <width>200</width>
+      <height>22</height>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>System Controls</name>
+    <x>441</x>
+    <y>50</y>
+    <width>499</width>
+    <height>150</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="16.0">
+      </font>
+    </font>
+    <widget type="label" version="2.0.0">
+      <name>Address Label</name>
+      <text>PS Address (Default 6):</text>
+      <x>10</x>
+      <y>10</y>
+      <width>150</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Address</name>
+      <pv_name>$(S)Address</pv_name>
+      <x>170</x>
+      <y>10</y>
+      <width>130</width>
+      <height>22</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Remote Label</name>
+      <text>Local/Remote Select:</text>
+      <x>10</x>
+      <y>50</y>
+      <width>150</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Remote Select</name>
+      <pv_name>$(S)SetMode</pv_name>
+      <x>170</x>
+      <y>45</y>
+      <width>130</width>
+      <height>24</height>
+      <background_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Auto-Restart Label</name>
+      <text>Auto-Restart:</text>
+      <x>10</x>
+      <y>80</y>
+      <width>150</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="bool_button" version="2.0.0">
+      <name>OutputState_1</name>
+      <pv_name>$(S)SetAStart</pv_name>
+      <x>170</x>
+      <y>80</y>
+      <width>130</width>
+      <height>22</height>
+      <off_label></off_label>
+      <off_color>
+        <color name="Off" red="60" green="100" blue="60">
+        </color>
+      </off_color>
+      <on_label></on_label>
+      <on_color>
+        <color name="On" red="0" green="255" blue="0">
+        </color>
+      </on_color>
+      <background_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <labels_from_pv>true</labels_from_pv>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>OTP?_1</name>
+      <pv_name>$(S)GetAStart</pv_name>
+      <x>310</x>
+      <y>80</y>
+      <width>130</width>
+      <square>true</square>
+      <labels_from_pv>true</labels_from_pv>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Remote Selected</name>
+      <pv_name>$(S)GetMode</pv_name>
+      <x>310</x>
+      <y>47</y>
+      <width>128</width>
+      <height>22</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Output Controls</name>
+    <x>10</x>
+    <y>200</y>
+    <width>420</width>
+    <height>190</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="16.0">
+      </font>
+    </font>
+    <widget type="label" version="2.0.0">
+      <name>EPICS Label</name>
+      <text>EPICS</text>
+      <x>130</x>
+      <y>30</y>
+      <width>70</width>
+      <height>22</height>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Volts Label</name>
+      <text>Voltage Output:</text>
+      <y>60</y>
+      <width>120</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Amps Label</name>
+      <text>Current Output:</text>
+      <y>85</y>
+      <width>120</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Output Label</name>
+      <text>Output:</text>
+      <y>115</y>
+      <width>120</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Volts Set</name>
+      <pv_name>$(S)VoltSet</pv_name>
+      <x>130</x>
+      <y>60</y>
+      <width>70</width>
+      <height>22</height>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Amps</name>
+      <pv_name>$(S)AmpsSet</pv_name>
+      <x>130</x>
+      <y>85</y>
+      <width>70</width>
+      <height>22</height>
+    </widget>
+    <widget type="bool_button" version="2.0.0">
+      <name>Output Cntrl</name>
+      <pv_name>$(S)SetOutput</pv_name>
+      <x>130</x>
+      <y>115</y>
+      <width>70</width>
+      <height>22</height>
+      <off_label></off_label>
+      <off_color>
+        <color name="Off" red="60" green="100" blue="60">
+        </color>
+      </off_color>
+      <on_label></on_label>
+      <on_color>
+        <color name="On" red="0" green="255" blue="0">
+        </color>
+      </on_color>
+      <background_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <labels_from_pv>true</labels_from_pv>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>Power Supply</name>
+      <x>199</x>
+      <y>2</y>
+      <width>190</width>
+      <height>150</height>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>SP Label</name>
+        <text>Setpoint</text>
+        <x>1</x>
+        <y>10</y>
+        <width>70</width>
+        <height>22</height>
+        <font>
+          <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </font>
+        <horizontal_alignment>1</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Meas Label</name>
+        <text>Output</text>
+        <x>80</x>
+        <y>10</y>
+        <width>70</width>
+        <height>22</height>
+        <font>
+          <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </font>
+        <horizontal_alignment>1</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Volts PS SP</name>
+        <pv_name>$(S)VoltValue</pv_name>
+        <x>1</x>
+        <y>40</y>
+        <width>70</width>
+        <height>22</height>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Amps PS SP</name>
+        <pv_name>$(S)AmpsValue</pv_name>
+        <x>1</x>
+        <y>65</y>
+        <width>70</width>
+        <height>22</height>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Volts PS Meas</name>
+        <pv_name>$(S)VoltActual</pv_name>
+        <x>80</x>
+        <y>40</y>
+        <width>70</width>
+        <height>22</height>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Amps PS Meas</name>
+        <pv_name>$(S)AmpsActual</pv_name>
+        <x>80</x>
+        <y>65</y>
+        <width>70</width>
+        <height>22</height>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="led" version="2.0.0">
+        <name>Output State</name>
+        <pv_name>$(S)GetOutput</pv_name>
+        <x>80</x>
+        <y>95</y>
+        <width>70</width>
+        <square>true</square>
+        <labels_from_pv>true</labels_from_pv>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Output Conditioning</name>
+    <x>10</x>
+    <y>390</y>
+    <width>420</width>
+    <height>190</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="16.0">
+      </font>
+    </font>
+    <widget type="label" version="2.0.0">
+      <name>EPICS Label</name>
+      <text>EPICS</text>
+      <x>130</x>
+      <y>6</y>
+      <width>70</width>
+      <height>22</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Meas Label</name>
+      <text>Supply</text>
+      <x>219</x>
+      <y>6</y>
+      <width>70</width>
+      <height>22</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Filter Label</name>
+      <text>Filter (Hz):</text>
+      <y>35</y>
+      <width>120</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Filter Set</name>
+      <pv_name>$(S)SetFilter</pv_name>
+      <x>130</x>
+      <y>35</y>
+      <width>70</width>
+      <height>22</height>
+      <background_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <items>
+        <item>Item 0</item>
+        <item>Item 1</item>
+        <item>Item 2</item>
+      </items>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Filter Meas</name>
+      <pv_name>$(S)GetFilter</pv_name>
+      <x>219</x>
+      <y>35</y>
+      <width>70</width>
+      <height>22</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Foldack En Label</name>
+      <text>Foldback Enabled:</text>
+      <y>70</y>
+      <width>120</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="bool_button" version="2.0.0">
+      <name>Foldback Enabled</name>
+      <pv_name>$(S)SetFoldback</pv_name>
+      <x>130</x>
+      <y>70</y>
+      <width>70</width>
+      <height>22</height>
+      <off_label></off_label>
+      <off_color>
+        <color name="Off" red="60" green="100" blue="60">
+        </color>
+      </off_color>
+      <on_label></on_label>
+      <on_color>
+        <color name="On" red="0" green="255" blue="0">
+        </color>
+      </on_color>
+      <background_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <labels_from_pv>true</labels_from_pv>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>Foldback Enabled?</name>
+      <pv_name>$(S)GetFldbStatus</pv_name>
+      <x>219</x>
+      <y>70</y>
+      <width>70</width>
+      <square>true</square>
+      <labels_from_pv>true</labels_from_pv>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Fldb Delay Label</name>
+      <text>Foldback Delay:</text>
+      <y>95</y>
+      <width>120</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Fldb Delay</name>
+      <pv_name>$(S)SetFldbDelay</pv_name>
+      <x>130</x>
+      <y>95</y>
+      <width>70</width>
+      <height>22</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Fldb Delay Meas</name>
+      <pv_name>$(S)GetFldbDelay</pv_name>
+      <x>219</x>
+      <y>95</y>
+      <width>70</width>
+      <height>22</height>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="bool_button" version="2.0.0">
+      <name>Fldb Delay Reset</name>
+      <pv_name>$(S)ResetFldbDelay</pv_name>
+      <x>130</x>
+      <y>120</y>
+      <width>160</width>
+      <height>22</height>
+      <off_label></off_label>
+      <off_color>
+        <color name="Off" red="60" green="100" blue="60">
+        </color>
+      </off_color>
+      <on_label></on_label>
+      <on_color>
+        <color name="On" red="0" green="255" blue="0">
+        </color>
+      </on_color>
+      <show_led>false</show_led>
+      <background_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <labels_from_pv>true</labels_from_pv>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Fldb Delay Range</name>
+      <text>(0 -25.5s)</text>
+      <x>300</x>
+      <y>95</y>
+      <width>60</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Output Protection</name>
+    <x>10</x>
+    <y>580</y>
+    <width>420</width>
+    <height>225</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="16.0">
+      </font>
+    </font>
+    <widget type="label" version="2.0.0">
+      <name>EPICS Label_1</name>
+      <text>EPICS</text>
+      <x>130</x>
+      <y>6</y>
+      <width>70</width>
+      <height>22</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Meas Label_1</name>
+      <text>Supply</text>
+      <x>219</x>
+      <y>6</y>
+      <width>70</width>
+      <height>22</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Volt Clamp Label</name>
+      <text>Clamp Voltage:</text>
+      <y>35</y>
+      <width>120</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Volt Clamp</name>
+      <pv_name>$(S)VoltMax</pv_name>
+      <x>130</x>
+      <y>35</y>
+      <width>70</width>
+      <height>22</height>
+    </widget>
+    <widget type="polyline" version="2.0.0">
+      <name>Polyline</name>
+      <x>219</x>
+      <y>46</y>
+      <width>70</width>
+      <height>1</height>
+      <line_color>
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </line_color>
+      <points>
+        <point x="70.0" y="0.0">
+        </point>
+        <point x="0.0" y="0.0">
+        </point>
+      </points>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Volt Clamp Range Label</name>
+      <text>(150V Max)</text>
+      <x>300</x>
+      <y>35</y>
+      <width>75</width>
+      <height>22</height>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Amp Clamp Label</name>
+      <text>Clamp Current:</text>
+      <y>60</y>
+      <width>120</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Amp Clamp</name>
+      <pv_name>$(S)AmpsMax</pv_name>
+      <x>130</x>
+      <y>60</y>
+      <width>70</width>
+      <height>22</height>
+    </widget>
+    <widget type="polyline" version="2.0.0">
+      <name>Polyline</name>
+      <x>219</x>
+      <y>71</y>
+      <width>70</width>
+      <height>1</height>
+      <line_color>
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </line_color>
+      <points>
+        <point x="70.0" y="0.0">
+        </point>
+        <point x="0.0" y="0.0">
+        </point>
+      </points>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Amp Clamp Range Label</name>
+      <text>(66A Max)</text>
+      <x>300</x>
+      <y>60</y>
+      <width>75</width>
+      <height>22</height>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>OVP Label</name>
+      <text>Over Volt Limit:</text>
+      <y>95</y>
+      <width>120</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>OVP</name>
+      <pv_name>$(S)SetOVP</pv_name>
+      <x>130</x>
+      <y>95</y>
+      <width>70</width>
+      <height>22</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>OVP Meas</name>
+      <pv_name>$(S)GetOVP</pv_name>
+      <x>219</x>
+      <y>95</y>
+      <width>70</width>
+      <height>22</height>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>OVP 105 Label</name>
+      <text>(105% of Clamp Voltage)</text>
+      <x>130</x>
+      <y>120</y>
+      <width>160</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>OVP Range Label</name>
+      <text>( 7.5V Min)
+(165V Max)</text>
+      <x>300</x>
+      <y>88</y>
+      <width>75</width>
+      <height>36</height>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>UVL Label</name>
+      <text>Under Volt Limit:</text>
+      <y>155</y>
+      <width>120</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>UVL</name>
+      <pv_name>$(S)SetUVL</pv_name>
+      <x>130</x>
+      <y>155</y>
+      <width>70</width>
+      <height>22</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>UVL Meas</name>
+      <pv_name>$(S)GetUVL</pv_name>
+      <x>219</x>
+      <y>155</y>
+      <width>70</width>
+      <height>22</height>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>UVL Range Label</name>
+      <text>(    0V Min)
+(142V Max)</text>
+      <x>300</x>
+      <y>148</y>
+      <width>75</width>
+      <height>36</height>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Under Voltage</name>
+      <text>(Usually 0 Volts)</text>
+      <x>17</x>
+      <y>174</y>
+      <width>111</width>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Status and Alarms</name>
+    <x>441</x>
+    <y>200</y>
+    <width>499</width>
+    <height>605</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="16.0">
+      </font>
+    </font>
+    <widget type="textupdate" version="2.0.0">
+      <name>Error Code</name>
+      <pv_name>$(S)CommandACK</pv_name>
+      <x>218</x>
+      <width>70</width>
+      <height>22</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Error Label</name>
+      <text>Error Code:</text>
+      <x>128</x>
+      <width>75</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>Fault Condition Monitors and Status</name>
+      <y>271</y>
+      <width>461</width>
+      <height>258</height>
+      <widget type="group" version="2.0.0">
+        <name>Monitors</name>
+        <width>220</width>
+        <height>230</height>
+        <widget type="label" version="2.0.0">
+          <name>Mon Enabled</name>
+          <text>Monitor Requested</text>
+          <y>4</y>
+          <width>132</width>
+          <height>18</height>
+          <font>
+            <font family="Liberation Sans" style="BOLD" size="12.0">
+            </font>
+          </font>
+          <horizontal_alignment>1</horizontal_alignment>
+          <vertical_alignment>1</vertical_alignment>
+        </widget>
+        <widget type="label" version="2.0.0">
+          <name>State</name>
+          <text>Status</text>
+          <x>141</x>
+          <y>4</y>
+          <width>40</width>
+          <height>18</height>
+          <font>
+            <font family="Liberation Sans" style="BOLD" size="12.0">
+            </font>
+          </font>
+          <horizontal_alignment>1</horizontal_alignment>
+          <vertical_alignment>1</vertical_alignment>
+        </widget>
+        <widget type="bool_button" version="2.0.0">
+          <name>AC_Fault</name>
+          <pv_name>$(S)SetFENA.B1</pv_name>
+          <bit>-1</bit>
+          <y>25</y>
+          <width>132</width>
+          <height>20</height>
+          <off_label>AC Fault Ignore</off_label>
+          <on_label>AC Fault Monitor</on_label>
+          <font>
+            <font family="Liberation Sans" style="REGULAR" size="11.0">
+            </font>
+          </font>
+        </widget>
+        <widget type="bool_button" version="2.0.0">
+          <name>OT_Fault</name>
+          <pv_name>$(S)SetFENA.B2</pv_name>
+          <bit>-1</bit>
+          <y>50</y>
+          <width>132</width>
+          <height>20</height>
+          <off_label>Over Temp Ignore</off_label>
+          <on_label>Over Temp Monitor</on_label>
+          <font>
+            <font family="Liberation Sans" style="REGULAR" size="11.0">
+            </font>
+          </font>
+        </widget>
+        <widget type="bool_button" version="2.0.0">
+          <name>FLDB_Fault</name>
+          <pv_name>$(S)SetFENA.B3</pv_name>
+          <bit>-1</bit>
+          <y>75</y>
+          <width>132</width>
+          <height>20</height>
+          <off_label>Foldback Trip Ignore</off_label>
+          <on_label>Foldback Trip Monitor</on_label>
+          <font>
+            <font family="Liberation Sans" style="REGULAR" size="11.0">
+            </font>
+          </font>
+        </widget>
+        <widget type="bool_button" version="2.0.0">
+          <name>OV_Fault</name>
+          <pv_name>$(S)SetFENA.B4</pv_name>
+          <bit>-1</bit>
+          <y>100</y>
+          <width>132</width>
+          <height>20</height>
+          <off_label>Over Voltage Ignore</off_label>
+          <on_label>Over Voltage Monitor</on_label>
+          <font>
+            <font family="Liberation Sans" style="REGULAR" size="11.0">
+            </font>
+          </font>
+        </widget>
+        <widget type="bool_button" version="2.0.0">
+          <name>Shut_Off_Fault</name>
+          <pv_name>$(S)SetFENA.B5</pv_name>
+          <bit>-1</bit>
+          <y>125</y>
+          <width>132</width>
+          <height>20</height>
+          <off_label>J1 Shut Off Ignore</off_label>
+          <on_label>J1 Shut Off Monitor</on_label>
+          <font>
+            <font family="Liberation Sans" style="REGULAR" size="11.0">
+            </font>
+          </font>
+        </widget>
+        <widget type="bool_button" version="2.0.0">
+          <name>Front Panel Off</name>
+          <pv_name>$(S)SetFENA.B6</pv_name>
+          <bit>-1</bit>
+          <y>150</y>
+          <width>132</width>
+          <height>20</height>
+          <off_label>Front Panel Ignore</off_label>
+          <on_label>Front Panel Monitor</on_label>
+          <font>
+            <font family="Liberation Sans" style="REGULAR" size="11.0">
+            </font>
+          </font>
+        </widget>
+        <widget type="bool_button" version="2.0.0">
+          <name>Rear Panel State</name>
+          <pv_name>$(S)SetFENA.B7</pv_name>
+          <bit>-1</bit>
+          <y>176</y>
+          <width>132</width>
+          <height>20</height>
+          <off_label>J1 On: Ignore</off_label>
+          <on_label>J1 On: Monitor</on_label>
+          <font>
+            <font family="Liberation Sans" style="REGULAR" size="11.0">
+            </font>
+          </font>
+        </widget>
+        <widget type="multi_state_led" version="2.0.0">
+          <name>ACFault</name>
+          <pv_name>$(S)ACFault</pv_name>
+          <x>150</x>
+          <y>23</y>
+          <states>
+            <state>
+              <value>0</value>
+              <label></label>
+              <color>
+                <color name="OK" red="0" green="255" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>1</value>
+              <label></label>
+              <color>
+                <color name="MAJOR" red="255" green="0" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>2</value>
+              <label></label>
+              <color>
+                <color name="Off" red="60" green="100" blue="60">
+                </color>
+              </color>
+            </state>
+          </states>
+        </widget>
+        <widget type="multi_state_led" version="2.0.0">
+          <name>OTFault</name>
+          <pv_name>$(S)OTFault</pv_name>
+          <x>150</x>
+          <y>49</y>
+          <states>
+            <state>
+              <value>0</value>
+              <label></label>
+              <color>
+                <color name="OK" red="0" green="255" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>1</value>
+              <label></label>
+              <color>
+                <color name="MAJOR" red="255" green="0" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>2</value>
+              <label></label>
+              <color>
+                <color name="Off" red="60" green="100" blue="60">
+                </color>
+              </color>
+            </state>
+          </states>
+        </widget>
+        <widget type="multi_state_led" version="2.0.0">
+          <name>FBEnable</name>
+          <pv_name>$(S)FBFault</pv_name>
+          <x>150</x>
+          <y>75</y>
+          <states>
+            <state>
+              <value>0</value>
+              <label></label>
+              <color>
+                <color name="OK" red="0" green="255" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>1</value>
+              <label></label>
+              <color>
+                <color name="MAJOR" red="255" green="0" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>2</value>
+              <label></label>
+              <color>
+                <color name="Off" red="60" green="100" blue="60">
+                </color>
+              </color>
+            </state>
+          </states>
+        </widget>
+        <widget type="multi_state_led" version="2.0.0">
+          <name>OVFault</name>
+          <pv_name>$(S)OVFault</pv_name>
+          <x>150</x>
+          <y>100</y>
+          <states>
+            <state>
+              <value>0</value>
+              <label></label>
+              <color>
+                <color name="OK" red="0" green="255" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>1</value>
+              <label></label>
+              <color>
+                <color name="MAJOR" red="255" green="0" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>2</value>
+              <label></label>
+              <color>
+                <color name="Off" red="60" green="100" blue="60">
+                </color>
+              </color>
+            </state>
+          </states>
+        </widget>
+        <widget type="multi_state_led" version="2.0.0">
+          <name>J1Off</name>
+          <pv_name>$(S)J1Off</pv_name>
+          <x>150</x>
+          <y>125</y>
+          <states>
+            <state>
+              <value>0</value>
+              <label></label>
+              <color>
+                <color name="OK" red="0" green="255" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>1</value>
+              <label></label>
+              <color>
+                <color name="Attention" red="255" green="160" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>2</value>
+              <label></label>
+              <color>
+                <color name="Off" red="60" green="100" blue="60">
+                </color>
+              </color>
+            </state>
+          </states>
+        </widget>
+        <widget type="multi_state_led" version="2.0.0">
+          <name>FPOff</name>
+          <pv_name>$(S)FPOff</pv_name>
+          <x>150</x>
+          <y>150</y>
+          <states>
+            <state>
+              <value>0</value>
+              <label></label>
+              <color>
+                <color name="OK" red="0" green="255" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>1</value>
+              <label></label>
+              <color>
+                <color name="Attention" red="255" green="160" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>2</value>
+              <label></label>
+              <color>
+                <color name="Off" red="60" green="100" blue="60">
+                </color>
+              </color>
+            </state>
+          </states>
+        </widget>
+        <widget type="multi_state_led" version="2.0.0">
+          <name>J1Enable</name>
+          <pv_name>$(S)J1Enable</pv_name>
+          <x>150</x>
+          <y>175</y>
+          <states>
+            <state>
+              <value>0</value>
+              <label></label>
+              <color>
+                <color name="OK" red="0" green="255" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>1</value>
+              <label></label>
+              <color>
+                <color name="Attention" red="255" green="160" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>2</value>
+              <label></label>
+              <color>
+                <color name="Off" red="60" green="100" blue="60">
+                </color>
+              </color>
+            </state>
+          </states>
+        </widget>
+      </widget>
+      <widget type="group" version="2.0.0">
+        <name>Status</name>
+        <x>213</x>
+        <width>203</width>
+        <height>230</height>
+        <widget type="bool_button" version="2.0.0">
+          <name>Const Volt Stat Enable</name>
+          <pv_name>$(S)SetSTAT.B0</pv_name>
+          <bit>-1</bit>
+          <y>25</y>
+          <width>120</width>
+          <height>20</height>
+          <off_label>Const Volt Ignore</off_label>
+          <on_label>Const Volt Monitor</on_label>
+          <font>
+            <font family="Liberation Sans" style="REGULAR" size="11.0">
+            </font>
+          </font>
+        </widget>
+        <widget type="label" version="2.0.0">
+          <name>Actual State</name>
+          <text>Status</text>
+          <x>125</x>
+          <y>4</y>
+          <width>40</width>
+          <height>18</height>
+          <font>
+            <font family="Liberation Sans" style="BOLD" size="12.0">
+            </font>
+          </font>
+          <horizontal_alignment>1</horizontal_alignment>
+          <vertical_alignment>1</vertical_alignment>
+        </widget>
+        <widget type="bool_button" version="2.0.0">
+          <name>Const Cur Stat Enable</name>
+          <pv_name>$(S)SetSTAT.B1</pv_name>
+          <bit>-1</bit>
+          <y>50</y>
+          <width>120</width>
+          <height>20</height>
+          <off_label>Const Amp Ignore</off_label>
+          <on_label>Const Amp Monitor</on_label>
+          <font>
+            <font family="Liberation Sans" style="REGULAR" size="11.0">
+            </font>
+          </font>
+        </widget>
+        <widget type="bool_button" version="2.0.0">
+          <name>Fault Detect</name>
+          <pv_name>$(S)SetSTAT.B3</pv_name>
+          <bit>-1</bit>
+          <y>76</y>
+          <width>120</width>
+          <height>20</height>
+          <off_label>Fault Detect Ignore</off_label>
+          <on_label>Fault Detect Monitor</on_label>
+          <font>
+            <font family="Liberation Sans" style="REGULAR" size="11.0">
+            </font>
+          </font>
+        </widget>
+        <widget type="bool_button" version="2.0.0">
+          <name>Local Remote Monitor</name>
+          <pv_name>$(S)SetSTAT.B7</pv_name>
+          <bit>-1</bit>
+          <y>102</y>
+          <width>120</width>
+          <height>20</height>
+          <off_label>Local/Remote Ign</off_label>
+          <on_label>Local/Remote Mon</on_label>
+          <font>
+            <font family="Liberation Sans" style="REGULAR" size="11.0">
+            </font>
+          </font>
+        </widget>
+        <widget type="label" version="2.0.0">
+          <name>Status Enabled</name>
+          <text>Status Requested</text>
+          <y>4</y>
+          <width>120</width>
+          <height>18</height>
+          <font>
+            <font family="Liberation Sans" style="BOLD" size="12.0">
+            </font>
+          </font>
+          <horizontal_alignment>1</horizontal_alignment>
+          <vertical_alignment>1</vertical_alignment>
+        </widget>
+        <widget type="multi_state_led" version="2.0.0">
+          <name>ConstVolt</name>
+          <pv_name>$(S)ConstVolt</pv_name>
+          <x>135</x>
+          <y>24</y>
+          <states>
+            <state>
+              <value>0</value>
+              <label></label>
+              <color>
+                <color name="OK" red="0" green="255" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>1</value>
+              <label></label>
+              <color>
+                <color name="MAJOR" red="255" green="0" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>2</value>
+              <label></label>
+              <color>
+                <color name="Off" red="60" green="100" blue="60">
+                </color>
+              </color>
+            </state>
+          </states>
+        </widget>
+        <widget type="multi_state_led" version="2.0.0">
+          <name>ConstCur</name>
+          <pv_name>$(S)ConstCur</pv_name>
+          <x>135</x>
+          <y>50</y>
+          <states>
+            <state>
+              <value>0</value>
+              <label></label>
+              <color>
+                <color name="OK" red="0" green="255" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>1</value>
+              <label></label>
+              <color>
+                <color name="MAJOR" red="255" green="0" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>2</value>
+              <label></label>
+              <color>
+                <color name="Off" red="60" green="100" blue="60">
+                </color>
+              </color>
+            </state>
+          </states>
+        </widget>
+        <widget type="multi_state_led" version="2.0.0">
+          <name>MonFault</name>
+          <pv_name>$(S)MonFault</pv_name>
+          <x>135</x>
+          <y>76</y>
+          <states>
+            <state>
+              <value>0</value>
+              <label></label>
+              <color>
+                <color name="OK" red="0" green="255" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>1</value>
+              <label></label>
+              <color>
+                <color name="MAJOR" red="255" green="0" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>2</value>
+              <label></label>
+              <color>
+                <color name="Off" red="60" green="100" blue="60">
+                </color>
+              </color>
+            </state>
+          </states>
+        </widget>
+        <widget type="multi_state_led" version="2.0.0">
+          <name>ModeSel</name>
+          <pv_name>$(S)ModeSel</pv_name>
+          <x>135</x>
+          <y>103</y>
+          <states>
+            <state>
+              <value>0</value>
+              <label></label>
+              <color>
+                <color name="OK" red="0" green="255" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>1</value>
+              <label></label>
+              <color>
+                <color name="Attention" red="255" green="160" blue="0">
+                </color>
+              </color>
+            </state>
+            <state>
+              <value>2</value>
+              <label></label>
+              <color>
+                <color name="Off" red="60" green="100" blue="60">
+                </color>
+              </color>
+            </state>
+          </states>
+        </widget>
+      </widget>
+    </widget>
+    <widget type="bool_button" version="2.0.0">
+      <name>CLS</name>
+      <pv_name>$(S)CLS</pv_name>
+      <x>38</x>
+      <y>535</y>
+      <width>160</width>
+      <off_label>Clear Status Register</off_label>
+      <off_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </off_color>
+      <on_label>Status Register Cleared</on_label>
+      <on_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </on_color>
+      <show_led>false</show_led>
+      <background_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="bool_button" version="2.0.0">
+      <name>RST</name>
+      <pv_name>$(S)Reset</pv_name>
+      <x>218</x>
+      <y>535</y>
+      <width>160</width>
+      <off_label>Reset Power Supply</off_label>
+      <off_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </off_color>
+      <on_label>Resetting Power Supply</on_label>
+      <on_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </on_color>
+      <show_led>false</show_led>
+      <background_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>Error Msgs</name>
+      <y>30</y>
+      <width>441</width>
+      <height>234</height>
+      <style>2</style>
+      <widget type="label" version="2.0.0">
+        <name>Error Code Title</name>
+        <text>Error Code</text>
+        <width>80</width>
+        <height>22</height>
+        <font>
+          <font family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </font>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <transparent>false</transparent>
+        <horizontal_alignment>1</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Error MSG Title</name>
+        <text>Error Message</text>
+        <x>77</x>
+        <width>360</width>
+        <height>22</height>
+        <font>
+          <font family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </font>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <transparent>false</transparent>
+        <horizontal_alignment>1</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Error_1</name>
+        <text>C01</text>
+        <y>23</y>
+        <width>78</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <horizontal_alignment>1</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Msg_1</name>
+        <text> Illegal command or query</text>
+        <x>77</x>
+        <y>21</y>
+        <width>360</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Error_2</name>
+        <text>C02</text>
+        <y>44</y>
+        <width>78</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <horizontal_alignment>1</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Msg_2</name>
+        <text> Missing parameter</text>
+        <x>77</x>
+        <y>42</y>
+        <width>360</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Error_3</name>
+        <text>C03</text>
+        <y>65</y>
+        <width>78</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <horizontal_alignment>1</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Msg_3</name>
+        <text> Illegal parameter</text>
+        <x>77</x>
+        <y>63</y>
+        <width>360</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Error_4</name>
+        <text>C04</text>
+        <y>84</y>
+        <width>78</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <horizontal_alignment>1</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Msg_4</name>
+        <text> Checksum error</text>
+        <x>79</x>
+        <y>86</y>
+        <width>360</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Error_5</name>
+        <text>C05</text>
+        <y>107</y>
+        <width>78</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <horizontal_alignment>1</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Msg_5</name>
+        <text> Setting out of range</text>
+        <x>79</x>
+        <y>107</y>
+        <width>360</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Error_6</name>
+        <text>E01</text>
+        <y>128</y>
+        <width>78</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <horizontal_alignment>1</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Msg_6</name>
+        <text> Voltage request above acceptable range</text>
+        <x>79</x>
+        <y>128</y>
+        <width>360</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Error_7</name>
+        <text>E02</text>
+        <y>149</y>
+        <width>78</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <horizontal_alignment>1</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Msg_7</name>
+        <text> Request voltage below UVL setting</text>
+        <x>79</x>
+        <y>149</y>
+        <width>360</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Error_8</name>
+        <text>E04</text>
+        <y>170</y>
+        <width>78</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <horizontal_alignment>1</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Msg_8</name>
+        <text> OVP setting below acceptabe range</text>
+        <x>79</x>
+        <y>170</y>
+        <width>360</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Error_9</name>
+        <text>E06</text>
+        <y>191</y>
+        <width>78</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <horizontal_alignment>1</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Msg_9</name>
+        <text> UVL request is above programmed output voltage</text>
+        <x>79</x>
+        <y>191</y>
+        <width>360</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Error_10</name>
+        <text>E07</text>
+        <y>212</y>
+        <width>78</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <horizontal_alignment>1</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Msg_10</name>
+        <text> Output set to ON during a fault shut down</text>
+        <x>77</x>
+        <y>210</y>
+        <width>360</width>
+        <background_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </background_color>
+        <vertical_alignment>1</vertical_alignment>
+        <border_width>1</border_width>
+      </widget>
+    </widget>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_1</name>
+    <x>940</x>
+    <y>570</y>
+    <width>1</width>
+    <height>1</height>
+    <states>
+      <state>
+        <value>0</value>
+        <label>State 1</label>
+        <color>
+          <color name="Off" red="60" green="100" blue="60">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label>State 2</label>
+        <color>
+          <color name="On" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+  </widget>
+</display>

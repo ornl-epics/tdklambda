@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>TDK-PS</name>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>TDK PS User Interface</text>
+    <x>20</x>
+    <y>10</y>
+    <width>234</width>
+    <height>25</height>
+    <font>
+      <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+      </font>
+    </font>
+    <auto_size>true</auto_size>
+    <wrap_words>false</wrap_words>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Power Supply Output Controls</name>
+    <x>10</x>
+    <y>50</y>
+    <width>420</width>
+    <height>230</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="16.0">
+      </font>
+    </font>
+    <widget type="label" version="2.0.0">
+      <name>EPICS Label</name>
+      <text>Requested</text>
+      <x>128</x>
+      <y>30</y>
+      <width>74</width>
+      <height>22</height>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Volts Label</name>
+      <text>Voltage Output:</text>
+      <y>60</y>
+      <width>120</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Amps Label</name>
+      <text>Current Output:</text>
+      <y>85</y>
+      <width>120</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Output Label</name>
+      <text>Output:</text>
+      <y>115</y>
+      <width>120</width>
+      <height>22</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Volts Set</name>
+      <pv_name>$(S)VoltSet</pv_name>
+      <x>130</x>
+      <y>60</y>
+      <width>70</width>
+      <height>22</height>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Amps</name>
+      <pv_name>$(S)AmpsSet</pv_name>
+      <x>130</x>
+      <y>85</y>
+      <width>70</width>
+      <height>22</height>
+    </widget>
+    <widget type="bool_button" version="2.0.0">
+      <name>Output Cntrl</name>
+      <pv_name>$(S)SetOutput</pv_name>
+      <x>130</x>
+      <y>115</y>
+      <width>70</width>
+      <height>22</height>
+      <off_label></off_label>
+      <off_color>
+        <color name="Off" red="60" green="100" blue="60">
+        </color>
+      </off_color>
+      <on_label></on_label>
+      <on_color>
+        <color name="On" red="0" green="255" blue="0">
+        </color>
+      </on_color>
+      <background_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <labels_from_pv>true</labels_from_pv>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>Power Supply</name>
+      <x>200</x>
+      <y>2</y>
+      <width>190</width>
+      <height>157</height>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>SP Label</name>
+        <text>Setpoint</text>
+        <x>1</x>
+        <y>10</y>
+        <width>70</width>
+        <height>22</height>
+        <font>
+          <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </font>
+        <horizontal_alignment>1</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Meas Label</name>
+        <text>Output</text>
+        <x>80</x>
+        <y>10</y>
+        <width>70</width>
+        <height>22</height>
+        <font>
+          <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </font>
+        <horizontal_alignment>1</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Volts PS SP</name>
+        <pv_name>$(S)VoltValue</pv_name>
+        <x>1</x>
+        <y>40</y>
+        <width>70</width>
+        <height>22</height>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Amps PS SP</name>
+        <pv_name>$(S)AmpsValue</pv_name>
+        <x>1</x>
+        <y>65</y>
+        <width>70</width>
+        <height>22</height>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Volts PS Meas</name>
+        <pv_name>$(S)VoltActual</pv_name>
+        <x>80</x>
+        <y>40</y>
+        <width>70</width>
+        <height>22</height>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Amps PS Meas</name>
+        <pv_name>$(S)AmpsActual</pv_name>
+        <x>80</x>
+        <y>65</y>
+        <width>70</width>
+        <height>22</height>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="led" version="2.0.0">
+        <name>Output State</name>
+        <pv_name>$(S)GetOutput</pv_name>
+        <x>80</x>
+        <y>95</y>
+        <width>70</width>
+        <square>true</square>
+        <labels_from_pv>true</labels_from_pv>
+      </widget>
+      <widget type="polyline" version="2.0.0">
+        <name>Polyline_1</name>
+        <x>6</x>
+        <y>105</y>
+        <width>60</width>
+        <height>1</height>
+        <line_color>
+          <color name="Text" red="0" green="0" blue="0">
+          </color>
+        </line_color>
+        <points>
+          <point x="60.0" y="0.0">
+          </point>
+          <point x="0.0" y="0.0">
+          </point>
+        </points>
+      </widget>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>PS Details</name>
+      <actions>
+        <action type="open_display">
+          <file>TDK-Detail.bob</file>
+          <target>replace</target>
+          <description>Power Supply Details</description>
+        </action>
+      </actions>
+      <x>210</x>
+      <y>164</y>
+      <width>170</width>
+      <height>22</height>
+      <background_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <tooltip>$(pv_value)</tooltip>
+    </widget>
+  </widget>
+</display>
