@@ -53,10 +53,11 @@ record (longout, "$(bl):$(ta):$(dn):Address")
 	field(DESC,	"Address of power supply")
 	field(ASG,	"BEAMLINE")
 	field(PINI,	"YES")
+	field(SCAN,	"1")
 	field(VAL,	"06")
 	field(DTYP,	"stream")
 	field(OUT,	"@tdklambda-rs232.proto PSU-adr($(bl):$(ta):$(dn)) tdk232")
-	info(archive, "Monitor, 00:01:00")
+	info(archive,	"Monitor, 00:01:00")
 	info(autosaveFields, "VAL")
 }
 

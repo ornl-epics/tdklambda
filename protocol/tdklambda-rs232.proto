@@ -22,7 +22,7 @@ debug {
 # Define the Address of the Unit to initiate communications - this must run first
 PSU-adr	{
     out "ADR %02d";
-    wait 10;
+    wait 50;
     in "%(\$1:CommandACK.VAL)s";
     @init {
         out "ADR %02d";
