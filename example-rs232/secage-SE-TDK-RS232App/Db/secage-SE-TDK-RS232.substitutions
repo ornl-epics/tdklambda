@@ -1,0 +1,9 @@
+file TDK-RS232_Alarm.template
+{pattern	{ bl, ta, dn} {SECAGE, SE, TDKR} }
+
+file TDK-RS232_Control.template
+{pattern	{ bl, ta, dn} {SECAGE, SE, TDKR} }
+
+file TDK-RS232_General.template
+{pattern	{ bl, ta, dn} {SECAGE, SE, TDKR} }
+
